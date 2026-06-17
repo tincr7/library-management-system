@@ -1,0 +1,19 @@
+[TELEGRAM_NOTIFICATION]
+- Hệ thống thư viện tích hợp Telegram Bot tự động để gửi thông báo thời gian thực (Real-time).
+- Tính năng: Tự động nhắn tin nhắc nhở khi sinh viên đăng ký mượn online thành công, khi đơn mượn được duyệt, hoặc khi sách chuẩn bị quá hạn trả để sinh viên kịp thời xử lý, tránh bị phạt hoặc khóa tài khoản.
+
+- Quy trình liên kết tài khoản nhận thông báo tự động (Deep Linking):
+  + Bước 1: Sinh viên đăng nhập vào hệ thống Web Thư viện, truy cập mục "Thông tin cá nhân".
+  + Bước 2: Nhấn vào nút "Kết nối Telegram nhận thông báo". Hệ thống Web sẽ tự động điều hướng sinh viên đến ứng dụng Telegram với đường link động chứa mã định danh tài khoản.
+  + Bước 3: Tại giao diện Telegram Bot, sinh viên chỉ cần nhấn nút "START" (Bắt đầu).
+  + Bước 4: Hệ thống Backend sẽ tự động bắt sự kiện, bốc lấy mã Chat ID Telegram và lưu thẳng vào Database Postgres để liên kết với tài khoản sinh viên. Bot sẽ gửi tin nhắn xác nhận "Liên kết tài khoản thành công" và hoàn tất chu trình tự động 100% mà sinh viên không cần copy-paste mã số thủ công.
+
+[SCAN_ANH_TIM_SACH]
+- Tính năng "Tìm bằng ảnh" (Image Search) cho phép sinh viên sử dụng camera điện thoại hoặc tải lên ảnh chụp bìa sách để tìm kiếm tài liệu trong kho.
+- Lõi AI sử dụng thuật toán đối sánh tính năng cục bộ ORB (OpenCV) trên Python FastAPI để trích xuất ma trận đặc trưng ảnh bìa và chấm điểm tự tin (Confidence Score) từ 0.0 đến 1.0. 
+- Nếu ảnh chụp bị mờ hoặc ORB điểm quá thấp, hệ thống sẽ tự động kích hoạt bước đệm thông minh: Sử dụng PaddleOCR để bốc chữ văn bản trên bìa và dùng bộ lọc sai số RapidFuzz để tìm ra cuốn sách khớp nhất.
+
+[HE_THONG_GOI_Y_RECOMMENDATION]
+- Hệ thống sở hữu bộ gợi ý tài liệu thông minh theo mô hình Hybrid Recommendation độc quyền.
+- Điểm sở thích danh mục (Category Score) được tính toán theo công thức: 70% dựa trên lịch sử mượn sách thực tế (Borrow Log) kết hợp với 30% dựa trên xu hướng tìm kiếm bằng hình ảnh gần đây (Image Search Log).
+- Kết quả gợi ý sẽ tự động loại bỏ các cuốn sách sinh viên đang mượn hoặc đã mượn, đồng thời áp dụng thuật toán xáo trộn ngẫu nhiên trên RAM (Randomized Selection) để danh sách 10 cuốn sách luôn tươi mới, không bị nhàm chán mỗi lần sinh viên tải lại trang.

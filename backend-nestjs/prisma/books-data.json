@@ -1,0 +1,1017 @@
+[
+  {
+    "id": 1,
+    "title": "Sách Cuộc Phiêu Lưu Tư Tưởng Văn Học Châu Âu Thế Kỷ XX (1900-1959)",
+    "author": "R. M. Albérès"
+  },
+  {
+    "id": 2,
+    "title": "Lịch Sử Văn Học Anh Quốc - Vanlangbooks",
+    "author": "Michael Alexande"
+  },
+  {
+    "id": 3,
+    "title": "Sách Thiên Tài Bên Trái, Kẻ Điên Bên Phải",
+    "author": "Cao Minh"
+  },
+  {
+    "id": 4,
+    "title": "Sách Thi Nhân Việt Nam (Bìa Cứng)",
+    "author": "Hoài Thanh, Hoài Chân"
+  },
+  {
+    "id": 5,
+    "title": "Góc Sân Và Khoảng Trời - Thơ Trần Đăng Khoa (HH)",
+    "author": "Trần Đăng Khoa"
+  },
+  {
+    "id": 6,
+    "title": "Truyện Kiều (Tái Bản 2021)",
+    "author": "Nguyễn Du"
+  },
+  {
+    "id": 7,
+    "title": "Thơ Tố Hữu - Tái Bản (HH)",
+    "author": "Tố Hữu"
+  },
+  {
+    "id": 8,
+    "title": "Sách - Truyện Kiều (Tái Bản 2026)",
+    "author": "Nguyễn Du"
+  },
+  {
+    "id": 9,
+    "title": "Câu Chuyện Văn Chương - Những Câu Chuyện Nhỏ Để Hiểu Và Yêu Môn Văn - Hoàng Thị Hiền Lương - ETS",
+    "author": "Hoàng Thị Hiền Lương"
+  },
+  {
+    "id": 10,
+    "title": "Sách - Nghìn Nghi Lễ Tình",
+    "author": "Nhật Chiêu"
+  },
+  {
+    "id": 11,
+    "title": "Truyện Kiều Hội Bản Nguyễn Du - Bản Nôm Của Hoàng Gia Triều Nguyễn",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 12,
+    "title": "Sách - Kim Vân Kiều - Bản Đặc Biệt - Bìa Cứng",
+    "author": "Nguyễn Du"
+  },
+  {
+    "id": 13,
+    "title": "Tôi Đã Đặt Tên Em Cho Thành Phố",
+    "author": "Thơ từ nhiều tác giả"
+  },
+  {
+    "id": 14,
+    "title": "Sách Hai Số Phận (Bìa Cứng) - Tặng Bookmark Happy Life",
+    "author": "Jeffrey Archer"
+  },
+  {
+    "id": 15,
+    "title": "Suối Nguồn (Tái Bản 2023)",
+    "author": "Ayn Rand"
+  },
+  {
+    "id": 16,
+    "title": "Từ Điển Tục Ngữ Thế Giới - Vanlangbooks",
+    "author": "Gerd De Ley"
+  },
+  {
+    "id": 17,
+    "title": "Sách Tục Ngữ, Ca Dao, Dân Ca Việt Nam (Tái Bản) - Phương Nam",
+    "author": "Vũ Ngọc Phan"
+  },
+  {
+    "id": 18,
+    "title": "Sách Tiếng Việt chữ nghĩa - Hồn vía dân gian",
+    "author": "Phạm Văn Tình"
+  },
+  {
+    "id": 19,
+    "title": "Sách Tục ngữ phong dao",
+    "author": "Ôn Như Nguyễn Văn Ngọc"
+  },
+  {
+    "id": 20,
+    "title": "Sách Chân Cứng Đá Mềm",
+    "author": "Nguyễn Thị Xuân Phượng"
+  },
+  {
+    "id": 21,
+    "title": "Sách Tôi Đi Học - Nguyễn Ngọc Ký (Tái Bản)",
+    "author": "Nguyễn Ngọc Ký"
+  },
+  {
+    "id": 22,
+    "title": "Chuyện Hồi Đó - Đỗ Hồng Ngọc",
+    "author": "Đỗ Hồng Ngọc"
+  },
+  {
+    "id": 23,
+    "title": "Tôi Học Đại Học - Nguyễn Ngọc Ký (Tái Bản)",
+    "author": "Nguyễn Ngọc Ký"
+  },
+  {
+    "id": 24,
+    "title": "Sách Mùa hè không tên (Nguyễn Nhật Ánh)",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 25,
+    "title": "Sách Cho Tôi Xin Một Vé Đi Tuổi Thơ (Bìa Mềm) (Tái Bản)",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 26,
+    "title": "Sách Hạ Đỏ",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 27,
+    "title": "Sách Còn chút gì để nhớ (Tái Bản 2022)",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 28,
+    "title": "Sách Mắt Biếc (Tái Bản 2022)",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 29,
+    "title": "Sách Làm Bạn Với Bầu Trời (Bìa Mềm)",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 30,
+    "title": "Sách Kính Vạn Hoa",
+    "author": "Nguyễn Nhật Ánh"
+  },
+  {
+    "id": 31,
+    "title": "Đỉnh Cao Kiểm Soát - Quyền Lực Mỹ Trong Kỷ Nguyên Chiến Tranh Kinh Tế",
+    "author": "Edward Fishman"
+  },
+  {
+    "id": 32,
+    "title": "Logistics Và Quản Trị Chuỗi Cung Ứng",
+    "author": "Paul R. Murphy, Jr., A. Michael Knemeyer"
+  },
+  {
+    "id": 33,
+    "title": "Bí Mật Của Phan Thiên Ân (Tái Bản 2023)",
+    "author": "Alan Phan"
+  },
+  {
+    "id": 34,
+    "title": "Người Giàu Có Nhất Thành Babylon",
+    "author": "George S Clason"
+  },
+  {
+    "id": 35,
+    "title": "Nghĩ Giàu & Làm Giàu (Tái Bản 2020)",
+    "author": "Napoleon Hill"
+  },
+  {
+    "id": 36,
+    "title": "Bí Mật Tư Duy Triệu Phú (Tái Bản 2021)",
+    "author": "T Harv Eker"
+  },
+  {
+    "id": 37,
+    "title": "Dạy Con Làm Giàu 01: Để Không Có Tiền Vẫn Tạo Ra Tiền (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 38,
+    "title": "Dạy Con Làm Giàu 02 - Sử Dụng Đồng Vốn - Để Được Thoải Mái Về Tiền Bạc (Tái Bản)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 39,
+    "title": "Dạy Con Làm Giàu 03 - Hướng Dẫn Đầu Tư (Tái Bản 2023)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 40,
+    "title": "Dạy Con Làm Giàu 4 - Con Giàu Con Thông Minh - Để Có Khởi Đầu Thuận Lợi Về Tài Chính (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 41,
+    "title": "Dạy Con Làm Giàu 05: Để Có Sức Mạnh Về Tài Chính (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 42,
+    "title": "Dạy Con Làm Giàu 06 - Những Câu Chuyện Thành Công (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 43,
+    "title": "Dạy Con Làm Giàu 07 - Ai Đã Lấy Tiền Của Tôi? (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 44,
+    "title": "Dạy Con Làm Giàu 08: Để Có Những Đồng Tiền Tích Cực (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 45,
+    "title": "Dạy Con Làm Giàu 09: Những Bí Mật Về Tiền Bạc Mà Bạn Không Học Ở Nhà Trường! (Tái Bản 2022)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 46,
+    "title": "Dạy Con Làm Giàu 10: Trước Khi Bạn Thôi Việc (Tái Bản 2023)",
+    "author": "Robert T Kiyosaki, Sharon L Lechter"
+  },
+  {
+    "id": 47,
+    "title": "Dạy Con Làm Giàu 11 - Trường Dạy Kinh Doanh Cho Những Người Thích Giúp Đỡ Người Khác (2022)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 48,
+    "title": "Dạy Con Làm Giàu 12 - Lời Tiên Tri Của Người Cha Giàu (Tái Bản 2020)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 49,
+    "title": "Dạy Con Làm Giàu 13 - Nâng Cao Chỉ Số Iq Tài Chính (Tái Bản 2020)",
+    "author": "Robert T Kiyosaki"
+  },
+  {
+    "id": 50,
+    "title": "Tại Sao Các Quốc Gia Thất Bại (Tái Bản 2024)",
+    "author": "Daron Acemoglu, James A. Robinson"
+  },
+  {
+    "id": 51,
+    "title": "Nhà Lãnh Đạo Không Chức Danh (Tái Bản 2022)",
+    "author": "Robin Sharma"
+  },
+  {
+    "id": 52,
+    "title": "Không Đến Một (Bìa Cam)",
+    "author": "Peter Thiel, Blake Masters"
+  },
+  {
+    "id": 53,
+    "title": "Tạo Video Triệu Views Với Capcut AI",
+    "author": "Unica, Sam Nguyễn"
+  },
+  {
+    "id": 54,
+    "title": "Trải Nghiệm Khách Hàng Xuất Sắc (Tái Bản 2024)",
+    "author": "Nguyễn Dương"
+  },
+  {
+    "id": 55,
+    "title": "Kịch Bản Video AI - Biến Ý Tưởng Thành Video Triệu Views  Unica, Sam Nguyễn",
+    "author": ""
+  },
+  {
+    "id": 56,
+    "title": "Tiếp Thị 5.0: Công Nghệ Vị Nhân Sinh",
+    "author": "Philip Kotler, Hermawan Kartajaya, Iwan Setiawan"
+  },
+  {
+    "id": 57,
+    "title": "Facebook AI Thực Chiến",
+    "author": "Unica, Vương Mạnh Hoàng"
+  },
+  {
+    "id": 58,
+    "title": "Trên Đỉnh Phố Wall (Tái Bản 2021)",
+    "author": "Peter Lynch, John Rothchild"
+  },
+  {
+    "id": 59,
+    "title": "Netflix: Phá Bỏ Nguyên Tắc Để Bứt Phá - No Rules Rules: Netflix And The Culture Of Reinvention",
+    "author": "Reed Hastings, Erin Meyer"
+  },
+  {
+    "id": 60,
+    "title": "Dek Biết Gì Cũng Tiến",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 61,
+    "title": "Phương Pháp Đặt Câu Hỏi Của Socrates - Khai Mở Tư Duy Phản Biện Và Hiểu Biết Sâu Sắc",
+    "author": "Thinknetic"
+  },
+  {
+    "id": 62,
+    "title": "Tư Duy Nhanh Và Chậm (Tái Bản 2021)",
+    "author": "Daniel Kahneman"
+  },
+  {
+    "id": 63,
+    "title": "Con Đường Chẳng Mấy Ai Đi",
+    "author": "M. Scott Peck"
+  },
+  {
+    "id": 64,
+    "title": "Atomic Habits - Thay Đổi Tí Hon Hiệu Quả Bất Ngờ (Tái Bản 2023)",
+    "author": "James Clear"
+  },
+  {
+    "id": 65,
+    "title": "Tâm Lý Học Về Tiền (Tái Bản 2026)",
+    "author": "Morgan Housel"
+  },
+  {
+    "id": 66,
+    "title": "Những Quy Luật Của Bản Chất Con Người",
+    "author": "Robert Greene"
+  },
+  {
+    "id": 67,
+    "title": "Stop Overthinking - Sống Tự Do, Không Âu Lo - 7 Bước Loại Bỏ Suy Nghĩ Tiêu Cực Và Bắt Đầu Suy Nghĩ Tích Cực",
+    "author": "Chase Hill, Scott Sharp"
+  },
+  {
+    "id": 68,
+    "title": "Đi Tìm Lẽ Sống (Tái Bản 2022)",
+    "author": "Viktor E Frankl"
+  },
+  {
+    "id": 69,
+    "title": "The Secret - The Magic - Phép Màu - Bìa Cứng (Tái Bản 2023)",
+    "author": "Rhowa Byrne"
+  },
+  {
+    "id": 70,
+    "title": "Thiên Tài Bên Trái, Kẻ Điên Bên Phải (Tái Bản 2021)",
+    "author": "Cao Minh"
+  },
+  {
+    "id": 71,
+    "title": "Harvard Bốn Rưỡi Sáng - Bí Kíp Thành Công Của Harvard Dành Cho Bạn Trẻ",
+    "author": "Xiu Ying Wei"
+  },
+  {
+    "id": 72,
+    "title": "7 Thói Quen Hiệu Quả - The 7 Habits Of Highly Effective People - Bìa Cứng (Tái Bản 2022)",
+    "author": "Stephen R Covey"
+  },
+  {
+    "id": 73,
+    "title": "Hồi Ức, Giấc Mơ, Suy Ngẫm",
+    "author": "Carl Gustav Jung"
+  },
+  {
+    "id": 74,
+    "title": "Tư Duy Nhanh Và Chậm (Tái Bản 2021)",
+    "author": "Daniel Kahneman"
+  },
+  {
+    "id": 75,
+    "title": "Đúng Việc - Một Góc Nhìn Về Câu Chuyện Khai Minh - Bìa Cứng (Tái Bản 2023)",
+    "author": "Giản Tư Trung"
+  },
+  {
+    "id": 76,
+    "title": "Sư Phạm Khai Phóng - Thế Giới, Việt Nam Và Tôi - Bìa Cứng",
+    "author": "Giản Tư Trung"
+  },
+  {
+    "id": 77,
+    "title": "Quản Trị Bằng Văn Hóa - Cách Thức Kiến Tạo Và Tái Tạo Văn Hóa Tổ Chức",
+    "author": "Giản Tư Trung"
+  },
+  {
+    "id": 78,
+    "title": "Thay Đổi Câu Hỏi Thay Đổi Cuộc Đời (Tái Bản)",
+    "author": "Tiến Sỹ Marilee Adams"
+  },
+  {
+    "id": 79,
+    "title": "Dám Bị Ghét",
+    "author": "Kishimi Ichiro, Koga Fumitake"
+  },
+  {
+    "id": 80,
+    "title": "Dám Hạnh Phúc",
+    "author": "Kishimi Ichiro, Koga Fumitake"
+  },
+  {
+    "id": 81,
+    "title": "Một Đời Như Kẻ Tìm Đường",
+    "author": "Phan Văn Trường"
+  },
+  {
+    "id": 82,
+    "title": "Tôi Tự Học (Tái Bản 2022)",
+    "author": "Thu Giang Nguyễn Duy Cần"
+  },
+  {
+    "id": 83,
+    "title": "Nghệ Thuật Tinh Tế Của Việc Đếch Quan Tâm (Tái Bản 2021)",
+    "author": "Mark Manson"
+  },
+  {
+    "id": 84,
+    "title": "Đắc Nhân Tâm",
+    "author": "Dale Carnegie"
+  },
+  {
+    "id": 85,
+    "title": "Đắc Nhân Tâm (Tái Bản 2021)",
+    "author": "Dale Carnegie"
+  },
+  {
+    "id": 86,
+    "title": "Đắc Nhân Tâm (Tái Bản 2023)",
+    "author": "Dale Carnegie"
+  },
+  {
+    "id": 87,
+    "title": "Đắc Nhân Tâm - Bìa Cứng - Phiên Bản Tinh Gọn",
+    "author": "Dale Carnegie"
+  },
+  {
+    "id": 88,
+    "title": "Đắc Nhân Tâm - Bản Hiệu Chỉnh (Tái Bản 2023)",
+    "author": "Dale Carnegie"
+  },
+  {
+    "id": 89,
+    "title": "Đại Dương Đen (Tái Bản 2025)",
+    "author": "Đặng Hoàng Giang"
+  },
+  {
+    "id": 90,
+    "title": "Yêu Những Điều Không Hoàn Hảo (Tái Bản 2025)",
+    "author": "Hae Min"
+  },
+  {
+    "id": 91,
+    "title": "Sách Giáo Trình Kỹ Thuật Lập Trình C Căn Bản Và Nâng Cao",
+    "author": ""
+  },
+  {
+    "id": 92,
+    "title": "AI 2041 - 10 Viễn cảnh cho tương lai",
+    "author": "Kai-Fu Lee, Chen Qiufan"
+  },
+  {
+    "id": 93,
+    "title": "Tư Duy Python - Cách Tư Duy Như Một Nhà Khoa Học Máy Tính - Allen B. Downey",
+    "author": "Allen B. Downey"
+  },
+  {
+    "id": 94,
+    "title": "Kỹ thuật AI: Xây dựng ứng dụng với Mô hình Nền tảng - Chip Huyen (TIMES)",
+    "author": "Chip Huyen"
+  },
+  {
+    "id": 95,
+    "title": "Lập trình python cho người mới bắt đầu - MoonBook",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 96,
+    "title": "Sách Thiết Kế Hệ Thống Học Máy",
+    "author": "Chip Huyen"
+  },
+  {
+    "id": 97,
+    "title": "Công nghệ bán dẫn tiên tiến",
+    "author": ""
+  },
+  {
+    "id": 98,
+    "title": "Đường Vào Lập Trình Python Nâng Cao",
+    "author": "TS Nguyễn Ngọc Giang"
+  },
+  {
+    "id": 99,
+    "title": "Giáo Trình Power BI (Phần Cơ Bản) - STK",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 100,
+    "title": "Sách Lập Trình AI cho người mới bắt đầu",
+    "author": "Tạ Văn Dũng"
+  },
+  {
+    "id": 101,
+    "title": "Sách Thiết Kế Game Nâng Cao - Bản Quyền",
+    "author": ""
+  },
+  {
+    "id": 102,
+    "title": "Thực Hành Phân Tích Dữ Liệu Và Lập Mô Hình Kinh Doanh Trong Excel - STK",
+    "author": "Phạm Quang Hiển - Văn Thị Tư"
+  },
+  {
+    "id": 103,
+    "title": "Python lập trình thuật toán",
+    "author": "Bùi Việt Hà"
+  },
+  {
+    "id": 104,
+    "title": "Nhập môn thuật toán",
+    "author": "Bùi Việt Hà"
+  },
+  {
+    "id": 105,
+    "title": "Lập trình hướng đối tượng JAVA core dành cho người mới bắt đầu học lập trình",
+    "author": ""
+  },
+  {
+    "id": 106,
+    "title": "Quản trị an toàn an ninh mạng",
+    "author": ""
+  },
+  {
+    "id": 107,
+    "title": "Sách Những Nguyên Tắc Sống Còn Trong Lập Trình",
+    "author": "Tạ Văn Dũng"
+  },
+  {
+    "id": 108,
+    "title": "Giáo trình lập trình C ứng dụng",
+    "author": ""
+  },
+  {
+    "id": 109,
+    "title": "Thông Tin Di Động 4G LTE Và 5G",
+    "author": "TS. Nguyễn Phạm Anh Dũng"
+  },
+  {
+    "id": 110,
+    "title": "Sách Arduino Và Lập Trình IoT",
+    "author": ""
+  },
+  {
+    "id": 111,
+    "title": "Sách Lập Trình Điều Khiển Xa Với ESP8266, ESP32 Và Arduino",
+    "author": ""
+  },
+  {
+    "id": 112,
+    "title": "Sách Vi Xử Lý Và Vi Điều Khiển",
+    "author": "TS. Lê Ngọc Bích, KS. Phạm Quang Huy"
+  },
+  {
+    "id": 113,
+    "title": "Sách Lập Trình Với C#",
+    "author": ""
+  },
+  {
+    "id": 114,
+    "title": "Sách DEEPSEEK: Trợ lý AI của bạn",
+    "author": "Trương Chí"
+  },
+  {
+    "id": 115,
+    "title": "An Ninh Mạng Trong Kỷ Nguyên Công Nghiệp 5.0",
+    "author": "PGS. TS. Trần Văn Hòa"
+  },
+  {
+    "id": 116,
+    "title": "Phát hiện tấn công có chủ đích : Từ lý thuyết đến thực hành",
+    "author": "PGS.TS. Đỗ Xuân Chợ"
+  },
+  {
+    "id": 117,
+    "title": "Giáo trình kĩ thuật mạng truyền thông",
+    "author": ""
+  },
+  {
+    "id": 118,
+    "title": "Sách - Ứng dụng trí tuệ nhân tạo (AI) trong dạy và học môncông nghệ thông tin (dành cho giáo viên và học sinh) HA",
+    "author": ""
+  },
+  {
+    "id": 119,
+    "title": "Sách - Quản trị an toàn, An ninh mạng",
+    "author": ""
+  },
+  {
+    "id": 120,
+    "title": "Ứng Dụng AI Trong Thiết Kế Hình Ảnh - Ai Cũng Có Thể Trở Thành Designer - Bản Quyền",
+    "author": "Julie Pallant (Tiến sĩ)"
+  },
+  {
+    "id": 121,
+    "title": "Chat GPT Thực Chiến - Sử Dụng AI Hiệu Quả Trong Sáng Tạo Nội Dung Marketing - Bản Quyền",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 122,
+    "title": "Sách - Thành Thạo Với Lập Trình PYTHON Nhờ Sử Dụng CHATGPT Như Thế Nào (Ngọc Mai)",
+    "author": ""
+  },
+  {
+    "id": 123,
+    "title": "Python Và Ứng Dụng Lập Trình Web (STK)",
+    "author": ""
+  },
+  {
+    "id": 124,
+    "title": "Chat GPT - Ứng Dụng Trí Tuệ Nhân Tạo Trong Công Việc",
+    "author": "Dr. Gleb Tsipursky"
+  },
+  {
+    "id": 125,
+    "title": "Làm chủ các mẫu thiết kế kinh điển trong lập trình (Mastering design patterns)",
+    "author": "Tạ Văn Dũng"
+  },
+  {
+    "id": 126,
+    "title": "Vi Điều Khiển Và Ứng Dụng - Arduino Dành Cho Người Tự Học",
+    "author": ""
+  },
+  {
+    "id": 127,
+    "title": "Sách Giáo Trình Hệ Điều Hành Windows Server 2003",
+    "author": "Ths. Lê Tự Thanh"
+  },
+  {
+    "id": 128,
+    "title": "Người Máy Thông Minh - Thiết Kế Lập Trình",
+    "author": ""
+  },
+  {
+    "id": 129,
+    "title": "Sách - Google AI Studio Toàn Tập - Không Cần Biết Lập Trình Tự Tay Xây Dựng Ứng Dụng Chuyên Sâu Của Bạn Bằng Ngôn Ngữ Tự Nhiên - Nguyễn Văn Lượng",
+    "author": "Nguyễn Văn Lượng"
+  },
+  {
+    "id": 130,
+    "title": "CLEAN CODE - Mã Sạch Và Con Đường Trở Thành Lập Trình Viên Giỏi",
+    "author": "Robert Cecil Martin"
+  },
+  {
+    "id": 131,
+    "title": "Bộ luật Hình sự (hiện hành)",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 132,
+    "title": "Bộ luật tố tụng hình sự (hiện hành)",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 133,
+    "title": "Sách Hướng Dẫn Chế Độ Kế Toán Doanh Nghiệp (theo Thông tư số 99/2025/TT-BTC) - V2672T",
+    "author": "Nguyễn Tài Thành"
+  },
+  {
+    "id": 134,
+    "title": "Luật Xử lý vi phạm hành chính (sửa đổi, bổ sung năm 2025) và các văn bản hướng dẫn thi hành",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 135,
+    "title": "Cẩm Nang Pháp Luật Dành Cho Doanh Nghiệp",
+    "author": "Tăng Bình - Ái Phương"
+  },
+  {
+    "id": 136,
+    "title": "Luật Luật sư (hiện hành) (sửa đổi, bổ sung năm 2012, 2015)",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 137,
+    "title": "Luật Doanh nghiệp năm 2020 (sửa đổi, bổ sung năm 2022, 2025)",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 138,
+    "title": "Sách Luật Kinh Tế: Luật Của Người Kinh Doanh",
+    "author": "Phạm Duy Nghĩa"
+  },
+  {
+    "id": 139,
+    "title": "Sách - Luật Thi Hành Án Dân Sự Năm 2025",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 140,
+    "title": "Quy Định về Sử Dụng Cờ Đảng Cộng Sản Việt Nam, Cờ Tổ Quốc tại các Cơ Quan Tổ Chức Doanh Nghiệp và Hướng Dẫn Nghiệp Vụ Công Tác Văn Phòng Cấp Ủy Ở Cơ Sở - V2247T",
+    "author": "Tăng Bình"
+  },
+  {
+    "id": 141,
+    "title": "Sách Tuyển Tập Các Bản Án Của Tòa Án Nhân Cấp Cao Về Hành Chính - Kinh Doanh Thương Mại - Hôn Nhân Gia Đình - Lao Động (Dành cho Thẩm phán, Thẩm tra viên, Hội thẩm, Kiểm sát viên, Luật sư và các học viên tư pháp ) - TS. Trần Văn Hà (V2446A)",
+    "author": "TS. Trần Văn Hà"
+  },
+  {
+    "id": 142,
+    "title": "Sách Hướng Dẫn Chế Độ Kế Toán Hành Chính Sự Nghiệp theo Thông tư 24/2024/TT-BTC (V2456T)",
+    "author": "Tăng Bình"
+  },
+  {
+    "id": 143,
+    "title": "Sách Hướng Dẫn Thực Hành 187 Sơ Đồ Kế Toán Hành Chính Sự Nghiệp theo Thông tư số 24/2024/TT-BTC (V2473T)",
+    "author": "Tăng Bình"
+  },
+  {
+    "id": 144,
+    "title": "Luật Bảo Hiểm Xã Hội Và Các Chế Độ, Chính Sách Mới Về Bảo Hiểm Xã Hội Được Áp Dụng Từ Năm 2021",
+    "author": "Tăng Bình, Ái Phương"
+  },
+  {
+    "id": 145,
+    "title": "Sách Quy Định Chi Tiết Thi Hành Luật Bảo Vệ Môi Trường – Quản Lý Chất Thải và Kiểm Soát Các Chất Ô Nhiễm - V2560T",
+    "author": "Tài Thành"
+  },
+  {
+    "id": 146,
+    "title": "Sách Luật Hợp Tác Xã – Hệ Thống Những Văn Bản Quy Định Chi Tiết Thi Hành (V2523T)",
+    "author": "Quốc hội"
+  },
+  {
+    "id": 147,
+    "title": "Sách Di Sản Hồ Chí Minh - Sửa Đổi Lối Làm Việc (Ấn Bản Kỷ Niệm 75 Năm Ngày Tác Phẩm Ra Đời)",
+    "author": "X.Y.Z"
+  },
+  {
+    "id": 148,
+    "title": "THỪA KẾ TÀI SẢN, NHÀ ĐẤT - CÁCH CHIA DI SẢN THẤU TÌNH ĐẠT LÝ",
+    "author": "Luật sư Đỗ Đăng Khoa"
+  },
+  {
+    "id": 149,
+    "title": "Sách Di sản Hồ Chí Minh. Bản đồ Hành trình 30 năm tìm đường cứu nước của Bác Hồ",
+    "author": "Trần Đức Tuấn"
+  },
+  {
+    "id": 150,
+    "title": "Sách Di Chúc Của Chủ Tịch Hồ Chí Minh (Tái Bản)",
+    "author": "Hồ Chí Minh"
+  },
+  {
+    "id": 151,
+    "title": "Pháp luật đại cương (Dùng trong các trường đại học, cao đẳng và trung cấp)",
+    "author": "TS Lê Minh Toàn"
+  },
+  {
+    "id": 152,
+    "title": "Sách Hỏi - đáp môn Lịch sử Đảng Cộng sản Việt Nam",
+    "author": "PGS. TS. Nguyễn Trọng Phúc"
+  },
+  {
+    "id": 153,
+    "title": "Sách Giáo trình Triết học (Dùng cho khối không chuyên ngành triết học trình độ đào tạo thạc sĩ, tiến sĩ các ngành khoa học tự nhiên, công nghệ)",
+    "author": "Bộ Giáo Dục Và Đào Tạo"
+  },
+  {
+    "id": 154,
+    "title": "Giáo trình Kinh tế chính trị Mác-Lênin (Dành cho bậc đại học hệ không chuyên lý luận chính trị)",
+    "author": "Bộ Giáo Dục Và Đào Tạo"
+  },
+  {
+    "id": 155,
+    "title": "Sách - Kinh Tế Học Vi Mô",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 156,
+    "title": "Giáo Trình Kĩ Năng Mềm",
+    "author": "TS. Nguyễn Văn Hùng (Chủ biên"
+  },
+  {
+    "id": 157,
+    "title": "Sách Hỏi – đáp môn Chủ nghĩa xã hội khoa học (Dành cho bậc đại học hệ chuyên và không chuyên lý luận chính trị)",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 158,
+    "title": "Quản Lý Thông Tin Dự Án Đầu Tư Xây Dựng Áp Dụng BIM Theo ISO 19650",
+    "author": ""
+  },
+  {
+    "id": 159,
+    "title": "Giáo trình phương pháp luận nghiên cứu khoa học tái bản mới nhất 2025",
+    "author": "Vũ Cao Đàm"
+  },
+  {
+    "id": 160,
+    "title": "Thống kê và ứng dụng (tái bản năm 2025 mới nhất)",
+    "author": "Đặng Hưng Thắng"
+  },
+  {
+    "id": 161,
+    "title": "Đại cương ngôn ngữ học - Tập 1",
+    "author": ""
+  },
+  {
+    "id": 162,
+    "title": "Sách Giáo trình C++ và lập trình hướng đối tượng",
+    "author": "Phạm Văn Ất, Lê Trường Thông"
+  },
+  {
+    "id": 163,
+    "title": "Cấu trúc dữ liệu và thuật toán (phân tích và cài đặt trên C/C++) Tập 1",
+    "author": "Trần Thông Quế"
+  },
+  {
+    "id": 164,
+    "title": "Sách Giáo trình kỹ thuật lập trình C căn bản và nâng cao",
+    "author": ""
+  },
+  {
+    "id": 165,
+    "title": "Quản lý Tòa Soạn Hội Tụ",
+    "author": "TS. Nguyễn Thị Trường Giang"
+  },
+  {
+    "id": 166,
+    "title": "Giáo Trình Marketing Dịch Vụ",
+    "author": "TS. Nguyễn Thị Hoàng Yến"
+  },
+  {
+    "id": 167,
+    "title": "Cơ Sở Đại Số Tuyến Tính",
+    "author": ""
+  },
+  {
+    "id": 168,
+    "title": "Truyền thông - lý thuyết và kỹ năng cơ bản",
+    "author": "Nhiều tác giả"
+  },
+  {
+    "id": 169,
+    "title": "Giáo Trình TOÁN CƠ SỞ",
+    "author": ""
+  },
+  {
+    "id": 170,
+    "title": "Cấu Trúc Dữ Liệu Và Thuật Toán - Nguyễn Đức Nghĩa (Xuất bản lần thứ năm - năm 2023)",
+    "author": ""
+  },
+  {
+    "id": 171,
+    "title": "Cơ sở di truyền học phân tử và tế bào",
+    "author": ""
+  },
+  {
+    "id": 172,
+    "title": "Giáo Trình Phương Pháp Luận Nghiên Cứu Khoa Học (Tái bản)",
+    "author": "Vũ Cao Đàm"
+  },
+  {
+    "id": 173,
+    "title": "Giáo trình thị giác máy tính",
+    "author": "PGS. TS. Phạm Văn Cường chủ biên"
+  },
+  {
+    "id": 174,
+    "title": "Giáo Trình Hóa Học Phân Tích - Cơ Sở Phân Tích Định Lượng Hóa Học",
+    "author": ""
+  },
+  {
+    "id": 175,
+    "title": "Giáo Trình Nguyên Lý Kế Toán - PGS. TS. Lê Văn Luyện",
+    "author": "PGS. TS. Lê Văn"
+  },
+  {
+    "id": 176,
+    "title": "Tự Học Từ Vựng Tiếng Anh - Word Formation",
+    "author": "Bùi Thanh Huyền"
+  },
+  {
+    "id": 177,
+    "title": "Cambridge IELTS 20 - Academic - With Audio + Answers (Savina)",
+    "author": "Cambridge"
+  },
+  {
+    "id": 178,
+    "title": "Cambridge IELTS 20 - General Training - With Audio + Answers (Savina)",
+    "author": "Cambridge"
+  },
+  {
+    "id": 179,
+    "title": "Destination C1&C2 - Grammar And Vocabulary With Answer Key (Không Đáp Án) (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 180,
+    "title": "Destination C1&C2 - Grammar & Vocabulary With Answer Key (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 181,
+    "title": "Destination B2 - Grammar And Vocabulary with Answer Key (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 182,
+    "title": "Destination B2 - Grammar And Vocabulary With Answer Key (Không Đáp Án) (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 183,
+    "title": "Destination B1 - Grammar And Vocabulary With Answer Key (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 184,
+    "title": "Destination B1 - Grammar And Vocabulary With Answer Key (Không Đáp Án) (Tái Bản 2025)",
+    "author": "Malcom Mann, Steve Taylore-Knowles"
+  },
+  {
+    "id": 185,
+    "title": "Cambridge IELTS 19 - Academic - Authentic Pratice Tests",
+    "author": "Cambridge"
+  },
+  {
+    "id": 186,
+    "title": "Cambridge IELTS 19 - General Training - Authentic Pratice Tests",
+    "author": "Cambridge"
+  },
+  {
+    "id": 187,
+    "title": "Cambridge IELTS 18 Academic - With Answer + Audio (Kèm Audio)",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 188,
+    "title": "Cambridge IELTS 18 General Training - With Answer + Audio (Kèm Audio)",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 189,
+    "title": "IELTS Writing - Viết Luận Chất Như Nước Cất",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 190,
+    "title": "VSTEP - Chinh Phục Kỳ Thi VSTEP - Tổng Ôn 4 Kỹ Năng Bậc Năng Lực Từ B1 Đến C1",
+    "author": "Trần Thủy Tiên"
+  },
+  {
+    "id": 191,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 1 - Tổng Hợp Các Bài Tập Chủ Điểm",
+    "author": "Minna no Nihongo"
+  },
+  {
+    "id": 192,
+    "title": "Tiếng Nhật Cho Mọi Người Sơ Cấp 1 - 25 Bài Luyện Nghe",
+    "author": "Makino Akiko, Tanaka Yone, Kitagawa Itsuko"
+  },
+  {
+    "id": 193,
+    "title": "Tiếng Nhật Cho Mọi Người Sơ Cấp 1 - Viết - Nhớ Các Mẫu Câu (Bản Mới)",
+    "author": "Hirai Etsuko, Miwa Sachiko"
+  },
+  {
+    "id": 194,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 1 - Bản Dịch Và Giải Thích Ngữ Pháp - Tiếng Việt (Bản Mới) (Tái Bản 2023)",
+    "author": "Minna no Nihongo"
+  },
+  {
+    "id": 195,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 1 - Bản Tiếng Nhật (Bản Mới) (Tái Bản 2023)",
+    "author": "Minna no Nihongo"
+  },
+  {
+    "id": 196,
+    "title": "Tiếng Nhật Cho Mọi Người - Trình Độ Sơ Cấp 2 - Tổng Hợp Các Bài Tập Chủ Điểm (Bản Mới) (Tái Bản 2023)",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 197,
+    "title": "Tiếng Nhật Cho Mọi Người Sơ Cấp 2 - 25 Bài Luyện Nghe",
+    "author": "Makino Akiko, Tanaka Yone, Kitagawa Itsuko"
+  },
+  {
+    "id": 198,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 2 - 25 Bài Đọc Hiểu Trình Độ Sơ Cấp (Bản Mới)",
+    "author": "Minna no Nihongo"
+  },
+  {
+    "id": 199,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 2 - Bản Dịch Và Giải Thích Ngữ Pháp-Tiếng Việt - Bản Mới (Tái Bản 2023)",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 200,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 2 - Hán Tự - Bản Tiếng Việt (Bản Mới) (Tái Bản 2023)",
+    "author": "Nhiều Tác Giả"
+  },
+  {
+    "id": 201,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 1 - Hán Tự (Bản Tiếng Việt)",
+    "author": "Shinya Makiko, Koga Chiseko, Takada Toru, Mikogami Keiko"
+  },
+  {
+    "id": 202,
+    "title": "Tiếng Nhật Cho Mọi Người Sơ Cấp 2 - Viết - Nhớ Các Mẫu Câu (Bản Mới)",
+    "author": "Hirai Etsuko, Miwa Sachiko"
+  },
+  {
+    "id": 203,
+    "title": "Tiếng Nhật Cho Mọi Người - Sơ Cấp 2 - Bản Tiếng Nhật (Bản Mới) (Tái Bản 2023)",
+    "author": "Nhiều Tác Giả"
+  }
+]

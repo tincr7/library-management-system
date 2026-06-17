@@ -1,0 +1,19 @@
+[QUY_DINH_THU_VIEN]
+Hệ thống Thư viện Thông minh hỗ trợ sinh viên tra cứu và quản lý mượn trả tài liệu tự động.
+
+[SO_LUONG_MUON_TOI_DA]
+- Mỗi sinh viên được phép đăng ký mượn tối đa 5 cuốn sách cùng một lúc trên hệ thống.
+- Không cho phép mượn thêm nếu số lượng sách đang giữ đã đạt giới hạn tối đa.
+
+[THOI_HAN_MUON]
+- Thời hạn mượn mặc định cho mỗi cuốn sách là 14 ngày (2 tuần) kể từ ngày thủ thư duyệt đơn đơn mượn thành công.
+- Sinh viên có trách nhiệm hoàn trả sách đúng hạn để tránh phát sinh vi phạm.
+
+[CHINH_SACH_GIA_HAN]
+- Mỗi cuốn sách chỉ được phép gia hạn tối đa 3 lần.
+- Thời gian gia hạn thêm là 7 ngày kể từ ngày hết hạn cũ.
+- Điều kiện gia hạn: Sách đang mượn phải chưa quá hạn, sinh viên không bị khóa tài khoản và cuốn sách đó hiện tại không có sinh viên khác nằm trong danh sách xếp hàng đặt trước (Reservation).
+
+[QUY_DINH_XU_LY_VI_PHAM]
+- Vi phạm quá hạn: Sinh viên trả sách trễ hạn sẽ bị hệ thống ghi nhận vào danh sách vi phạm (Violation Log).
+- Hình thức xử phạt: Tài khoản sinh viên sẽ tạm thời bị khóa chức năng "Mượn Online" và chức năng "Đặt trước" nếu có đơn hàng quá hạn chưa hoàn trả. Hệ thống sẽ tự động mở khóa sau khi sinh viên hoàn trả đầy đủ sách quá hạn và hoàn tất thủ tục xử lý tại quầy thủ thư.

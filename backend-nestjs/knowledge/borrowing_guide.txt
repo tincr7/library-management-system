@@ -1,0 +1,16 @@
+[HUONG_DAN_MUON_SACH]
+- Bước 1: Sinh viên đăng nhập vào hệ thống, truy cập Trung Tâm Khám Phá Sách.
+- Bước 2: Tìm kiếm cuốn sách cần mượn, nhấn nút "Mượn Sách" (Đối với sách còn stock trên kệ).
+- Bước 3: Hệ thống tạo một yêu cầu mượn mới (Borrow Log) với trạng thái chờ duyệt. Sinh viên vui lòng đợi thủ thư xác nhận Đăng ký mượn online thành công để đến thư viện bốc sách.
+
+[HUONG_DAN_TRA_SACH]
+- Sách mượn online phải được hoàn trả trực tiếp tại quầy hỗ trợ của thủ thư.
+- Khi thủ thư nhận lại sách vật lý và quét mã, hệ thống NestJS sẽ cập nhật ngày trả thực tế, tự động tính toán số ngày quá hạn và hoàn trả số lượng sẵn có (availableStock) lên kệ RAM cho cuốn sách đó.
+
+[HUONG_DAN_DAT_TRUOC]
+- Khi một đầu sách đã hết sách tạm thời (availableStock = 0), nút "Mượn Sách" trên giao diện sẽ tự động chuyển thành "Đặt Trước" (Xếp hàng đặt trước sách).
+- Sinh viên nhấn "Đặt Trước" để hệ thống nạp một bản ghi vào bảng reservations. Khi có sinh viên khác trả sách, hệ thống sẽ ưu tiên thông báo cho người đứng đầu danh sách chờ.
+
+[HUONG_DAN_GIA_HAN]
+- Sinh viên vào mục "Sách đang mượn", tìm cuốn sách sắp hết hạn và nhấn nút "Gia Hạn". 
+- Backend NestJS sẽ kiểm tra điều kiện (không có ai đặt trước, chưa quá hạn) và tiến hành cộng thêm 7 ngày vào thời hạn trả sách.

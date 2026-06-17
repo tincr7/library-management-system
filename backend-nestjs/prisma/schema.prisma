@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//
+// ENUMS
+//
+
+enum Role {
+  ADMIN
+  STUDENT
+}
+
+enum BorrowStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  BORROWING
+  RETURNED
+  OVERDUE
+}
+
+enum ReservationStatus {
+  PENDING
+  APPROVED
+  CANCELLED
+  COMPLETED
+}
+
+enum ViolationType {
+  LATE_RETURN
+  LOST_BOOK
+  DAMAGED_BOOK
+}
+
+//
+// USERS
+//
+
+model User {
+  id            Int            @id @default(autoincrement())
+  mssv          String         @unique
+  name          String
+  password      String
+  role          Role           @default(STUDENT)
+
+  telegramId    String?
+
+  isActive      Boolean        @default(true)
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  borrowLogs    BorrowLog[]
+  reservations  Reservation[]
+  violations    Violation[]
+  notifications Notification[]
+  imageSearchLogs ImageSearchLog[]
+
+  @@map("users")
+}
+
+//
+// CATEGORIES
+//
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+
+  books       Book[]
+
+  createdAt   DateTime @default(now())
+
+  @@map("categories")
+}
+
+//
+// BOOKS
+//
+
+model Book {
+  id               Int      @id @default(autoincrement())
+
+  title            String
+  author           String?
+
+  isbn             String?  
+
+  description      String?  @db.Text
+
+  coverImage       String?
+
+
+  totalStock       Int      @default(1)
+  availableStock   Int      @default(1)
+
+  categoryId       Int?
+  category         Category? @relation(fields: [categoryId], references: [id])
+
+  borrowLogs       BorrowLog[]
+  reservations     Reservation[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  imageSearchLogs ImageSearchLog[]
+
+  @@map("books")
+}
+
+//
+// MƯỢN SÁCH
+//
+
+model BorrowLog {
+  id            Int            @id @default(autoincrement())
+
+  userId        Int
+  user          User           @relation(fields: [userId], references: [id])
+
+  bookId        Int
+  book          Book           @relation(fields: [bookId], references: [id])
+
+  borrowDate    DateTime       @default(now())
+
+  dueDate       DateTime
+
+  returnDate    DateTime?
+
+  renewCount    Int            @default(0)
+
+  status        BorrowStatus   @default(PENDING)
+
+  renewHistories RenewHistory[]
+
+  violations    Violation[]
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map("borrow_logs")
+}
+
+//
+// LỊCH SỬ GIA HẠN
+//
+
+model RenewHistory {
+  id             Int        @id @default(autoincrement())
+
+  borrowLogId    Int
+  borrowLog      BorrowLog  @relation(fields: [borrowLogId], references: [id])
+
+  oldDueDate     DateTime
+
+  newDueDate     DateTime
+
+  reason         String?
+
+  renewedAt      DateTime   @default(now())
+
+  @@map("renew_histories")
+}
+
+//
+// ĐẶT TRƯỚC SÁCH
+//
+
+model Reservation {
+  id            Int                @id @default(autoincrement())
+
+  userId        Int
+  user          User               @relation(fields: [userId], references: [id])
+
+  bookId        Int
+  book          Book               @relation(fields: [bookId], references: [id])
+
+  status        ReservationStatus  @default(PENDING)
+
+  reservedAt    DateTime           @default(now())
+
+  approvedAt    DateTime?
+
+  expiredAt     DateTime?
+
+  note          String?
+
+  @@map("reservations")
+}
+
+//
+// VI PHẠM
+//
+
+model Violation {
+  id            Int             @id @default(autoincrement())
+
+  userId        Int
+  user          User            @relation(fields: [userId], references: [id])
+
+  borrowLogId   Int?
+  borrowLog     BorrowLog?      @relation(fields: [borrowLogId], references: [id])
+
+  type          ViolationType
+
+  description   String?
+
+  fineAmount    Float           @default(0)
+
+  isPaid        Boolean         @default(false)
+
+  createdAt     DateTime        @default(now())
+
+  @@map("violations")
+}
+
+//
+// THÔNG BÁO
+//
+
+model Notification {
+  id            Int       @id @default(autoincrement())
+
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+
+  title         String
+
+  message       String    @db.Text
+
+  isRead        Boolean   @default(false)
+
+  sentAt        DateTime  @default(now())
+
+  @@map("notifications")
+}
+
+//
+// LỊCH SỬ TÌM KIẾM ẢNH
+//
+
+model ImageSearchLog {
+  id           Int      @id @default(autoincrement())
+  userId       Int?
+  user         User?    @relation(fields: [userId], references: [id])
+  imagePath    String
+  resultBookId Int?
+  resultBook   Book?    @relation(fields: [resultBookId], references: [id])
+  confidence   Float?
+  searchText   String?
+  createdAt    DateTime @default(now())
+
+  @@map("image_search_logs")
+}
