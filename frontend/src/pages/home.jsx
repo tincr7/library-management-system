@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Layout, Menu, Typography, Avatar, Space, Drawer, Input, Button, List, Spin, Card, Row, Col } from 'antd';
+import { Layout, Typography, Avatar, Space, Input, Button, List, Spin, Card, Row, Col, Tooltip, ConfigProvider } from 'antd';
 import { 
   DashboardOutlined, 
   SearchOutlined, 
@@ -9,43 +9,62 @@ import {
   UserOutlined,
   LogoutOutlined,
   RobotOutlined,
-  SendOutlined
+  SendOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
+import { motion, AnimatePresence } from 'motion/react';
 
 // Import axiosClient để gọi API /chat
 import axiosClient from '../api/axiosClient';
 
-// Import các component nghiệp vụ của bạn
+// Import các component nghiệp vụ
 import BookSearch from './Book'; 
 import RenewHistory from './RenewHistory';
 import ViolationHistory from './ViolationHistory';
 import StudentProfile from './StudentProfile';
 import StudentDashboard from './StudentDashboard';
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 const { Text } = Typography;
+
+// --- DESIGN TOKENS ---
+const TOKENS = {
+  bg: '#FBFBFA',
+  surface: '#FFFFFF',
+  text: '#111111',
+  muted: '#787774',
+  accent: '#1F6C9F',
+  border: '#EAEAEA',
+  sidebar: '#111111',
+  radius: '12px'
+};
 
 const Home = () => {
   const [selectedKey, setSelectedKey] = useState('1');
   const [user, setUser] = useState(null);
-
   const [selectedBookId, setSelectedBookId] = useState(null);
 
-  // --- STATE & LOGIC CHO TRỢ LÝ AI (CHATBOT) ---
+  // --- STATE CHO TRỢ LÝ AI ---
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState([
-    { text: "Xin chào! Tôi là Trợ lý AI Thư viện Đại học Thủy Lợi. Tôi có thể giúp gì cho bạn?", sender: "bot" }
+    { text: "Xin chào! Tôi là Trợ lý AI Thư viện. Tôi có thể giúp gì cho bạn?", sender: "bot" }
   ]);
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Tự động cuộn xuống tin nhắn mới nhất
   useEffect(() => {
     if (isChatOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [chatMessages, isChatOpen]);
+
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleSendMessage = async () => {
     if (!chatInput.trim()) return;
@@ -71,13 +90,6 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-
   const renderContent = () => {
     switch (selectedKey) {
       case '1': return <StudentDashboard />;
@@ -100,9 +112,6 @@ const Home = () => {
     window.location.href = '/login';
   };
 
-  /**
-   * 🔥 HÀM PHỤ TRỢ: Bóc tách văn bản và mảng JSON sách từ cấu trúc thẻ <BOOK_DATA>
-   */
   const renderMessageContent = (fullText) => {
     const bookDataRegex = /<BOOK_DATA>([\s\S]*?)<\/BOOK_DATA>/;
     const match = fullText.match(bookDataRegex);
@@ -120,46 +129,35 @@ const Home = () => {
 
     return (
       <Space direction="vertical" style={{ width: '100%' }} size="small">
-        {/* Hiển thị câu trả lời dạng chữ của AI */}
-        <div style={{ whiteSpace: 'pre-wrap' }}>{cleanText}</div>
-
-        {/* Render danh sách Card sách - 🔥 ĐÃ NỚI RỘNG max-width thành 100% */}
+        <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', fontSize: '13px' }}>{cleanText}</div>
         {books.length > 0 && (
-          <div style={{ marginTop: '12px', width: '100%', maxWidth: '380px' }}>
+          <div style={{ marginTop: '12px' }}>
             <Row gutter={[12, 12]}>
               {books.map((book) => (
                 <Col span={12} key={book.id}>
                   <Card
                     hoverable
+                    bordered={false}
                     bodyStyle={{ padding: '8px', textAlign: 'center' }}
+                    style={{ background: TOKENS.bg, border: `1px solid ${TOKENS.border}` }}
                     cover={
-                      <div style={{ backgroundColor: '#f5f5f5', borderRadius: '4px 4px 0 0', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '8px 0' }}>
+                      <div style={{ display: 'flex', justifyContent: 'center', padding: '12px' }}>
                         <img 
                           alt={book.title} 
                           src={book.coverImage} 
-                          style={{ height: '150px', width: '110px', objectFit: 'cover', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}
+                          style={{ height: '120px', width: '85px', objectFit: 'cover', borderRadius: '4px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
                         />
                       </div>
                     }
-                    // 🔥 CẬP NHẬT: Khi click, vừa đổi tab vừa nạp thẳng ID sách vào State cha
                     onClick={() => {
-                      setSelectedBookId(book.id); // Lưu ID cuốn sách được chọn
-                      setSelectedKey('2');        // Nhảy sang menu Tìm Sách
-                      setIsChatOpen(false);       // Đóng drawer chat
+                      setSelectedBookId(book.id);
+                      setSelectedKey('2');
+                      setIsChatOpen(false);
                     }}
                   >
-                    <Card.Meta 
-                      title={
-                        <Text strong style={{ fontSize: '13px', display: 'block', marginTop: '4px' }} ellipsis={{ tooltip: book.title }}>
-                          {book.title}
-                        </Text>
-                      } 
-                      description={
-                        <Text type="secondary" style={{ fontSize: '11px' }} ellipsis>
-                          {book.author}
-                        </Text>
-                      }
-                    />
+                    <Text strong style={{ fontSize: '12px', display: 'block' }} ellipsis={{ tooltip: book.title }}>
+                      {book.title}
+                    </Text>
                   </Card>
                 </Col>
               ))}
@@ -170,143 +168,238 @@ const Home = () => {
     );
   };
 
+  const NAV_ITEMS = [
+    { key: '1', label: 'Dashboard', icon: <DashboardOutlined /> },
+    { key: '2', label: 'Discovery', icon: <SearchOutlined /> },
+    { key: '3', label: 'Renewals', icon: <SyncOutlined /> },
+    { key: '4', label: 'History', icon: <HistoryOutlined /> },
+    { key: '5', label: 'Alerts', icon: <AlertOutlined /> },
+    { key: '6', label: 'Profile', icon: <UserOutlined /> },
+  ];
+
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider 
-        collapsible 
-        theme="light"
-        style={{
-          overflow: 'auto',
-          height: '100vh',
-          position: 'sticky',
-          top: 0,
-          left: 0,
-          boxShadow: '2px 0 8px rgba(0,0,0,0.05)'
-        }}
-      >
-        <div style={{ padding: '24px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>
-          <Avatar size={54} icon={<UserOutlined />} style={{ backgroundColor: '#1890ff', marginBottom: '8px' }} />
-          <div style={{ marginTop: '4px' }}>
-              <Text strong style={{ display: 'block' }}>{user?.name || 'Sinh viên'}</Text>
-              <Text type="secondary" style={{ fontSize: '12px' }}>MSSV: {user?.mssv}</Text>
-          </div>
-        </div>
-        
-        <Menu 
-          mode="inline" 
-          defaultSelectedKeys={['1']}
-          selectedKeys={[selectedKey]}
-          onClick={(e) => e.key !== 'logout' && setSelectedKey(e.key)}
-          style={{ borderRight: 0, marginTop: '16px' }}
-        >
-          <Menu.Item key="1" icon={<DashboardOutlined />}>Tổng quan</Menu.Item>
-          <Menu.Item key="2" icon={<SearchOutlined />}>Tìm sách</Menu.Item>
-          <Menu.Item key="3" icon={<SyncOutlined />}>Gia hạn sách</Menu.Item>
-          <Menu.Item key="4" icon={<HistoryOutlined />}>Lịch sử gia hạn</Menu.Item>
-          <Menu.Item key="5" icon={<AlertOutlined />}>Lịch sử phạt</Menu.Item>
-          <Menu.Item key="6" icon={<UserOutlined />}>Thông tin</Menu.Item>
-          <Menu.Divider />
-          <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout} danger>
-            Đăng xuất
-          </Menu.Item>
-        </Menu>
-      </Sider>
-      
-      <Layout style={{ background: '#f5f7f9' }}>
-        <Content style={{ margin: '24px' }}>
-          <div style={{ padding: 24, background: '#fff', borderRadius: '12px', minHeight: 'calc(100vh - 112px)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-            {renderContent()}
-          </div>
-        </Content>
-      </Layout>
-
-      {/* NÚT BONG BÓNG CHAT FLOATING GÓC DƯỚI */}
-      <div 
-        onClick={() => setIsChatOpen(true)}
-        style={{
-          position: 'fixed',
-          bottom: '40px',
-          right: '40px',
-          backgroundColor: '#1890ff',
-          color: 'white',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          boxShadow: '0 4px 12px rgba(24,144,255,0.4)',
-          cursor: 'pointer',
-          zIndex: 1000,
-          transition: 'transform 0.3s'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        <RobotOutlined style={{ fontSize: '28px' }} />
-      </div>
-
-      {/* CỬA SỔ CHATBOT (DRAWER) */}
-      <Drawer
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <RobotOutlined style={{ color: '#1890ff', fontSize: '24px' }} />
-            <Text strong>Trợ lý AI Thư Viện</Text>
-          </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: TOKENS.accent,
+          borderRadius: 8,
+          fontFamily: "'Geist Sans', -apple-system, sans-serif",
+          colorText: TOKENS.text,
+        },
+        components: {
+          Button: {
+            borderRadius: 6,
+            fontWeight: 500,
+          },
         }
-        placement="right"
-        onClose={() => setIsChatOpen(false)}
-        open={isChatOpen}
-        width={480} // Tăng nhẹ kích thước lên 480px để Card hiển thị hàng đôi cân đối
-        bodyStyle={{ display: 'flex', flexDirection: 'column', padding: '10px 20px' }}
-      >
-        <div style={{ flex: 1, overflowY: 'auto', marginBottom: '16px', paddingRight: '5px' }}>
-          <List
-            dataSource={chatMessages}
-            renderItem={(msg) => (
-              <List.Item style={{ borderBottom: 'none', justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start', padding: '8px 0' }}>
-                <Space align="start" style={{ maxWidth: '90%', flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row' }}>
-                  <Avatar 
-                    icon={msg.sender === 'user' ? <UserOutlined /> : <RobotOutlined />} 
-                    style={{ backgroundColor: msg.sender === 'user' ? '#52c41a' : '#1890ff', marginTop: '4px' }}
-                  />
-                  <div style={{
-                    backgroundColor: msg.sender === 'user' ? '#e6f7ff' : '#f0f2f5',
-                    padding: '10px 14px',
-                    borderRadius: '12px',
-                    wordBreak: 'break-word',
-                    border: msg.sender === 'user' ? '1px solid #91d5ff' : '1px solid #d9d9d9'
-                  }}>
-                    {/* 🔥 THAY ĐỔI: Chuyển sang gọi hàm bóc tách dữ liệu động */}
-                    {msg.sender === 'bot' ? renderMessageContent(msg.text) : msg.text}
-                  </div>
-                </Space>
-              </List.Item>
-            )}
-          />
-          {isChatLoading && (
-             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 0' }}>
-               <Avatar icon={<RobotOutlined />} style={{ backgroundColor: '#1890ff' }} />
-               <Spin size="small" />
-             </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
+      }}
+    >
+      <Layout style={{ minHeight: '100dvh', background: TOKENS.bg, flexDirection: 'row', overflow: 'hidden' }}>
         
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <Input
-            placeholder="Hỏi tôi về quy định, mượn sách, nộp phạt..."
-            value={chatInput}
-            onChange={(e) => setChatInput(e.target.value)}
-            onPressEnter={handleSendMessage}
-            disabled={isChatLoading}
-          />
-          <Button type="primary" icon={<SendOutlined />} onClick={handleSendMessage} loading={isChatLoading}>
-            Gửi
-          </Button>
-        </div>
-      </Drawer>
-    </Layout>
+        {/* --- CUSTOM NAVIGATION RAIL --- */}
+        <motion.div 
+          initial={{ x: -80 }}
+          animate={{ x: 0 }}
+          style={{
+            width: '72px',
+            background: TOKENS.sidebar,
+            height: '100vh',
+            position: 'sticky',
+            top: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '32px 0',
+            zIndex: 100,
+            borderRight: '1px solid rgba(255,255,255,0.05)'
+          }}
+        >
+          <div style={{ marginBottom: '48px' }}>
+            <Avatar 
+              size={40} 
+              icon={<UserOutlined />} 
+              src={user?.avatar}
+              style={{ background: TOKENS.accent, border: '2px solid rgba(255,255,255,0.1)' }}
+            />
+          </div>
+
+          <Space direction="vertical" size={20} style={{ flex: 1 }}>
+            {NAV_ITEMS.map(item => (
+              <Tooltip key={item.key} title={item.label} placement="right">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedKey(item.key)}
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    background: selectedKey === item.key ? TOKENS.accent : 'transparent',
+                    color: selectedKey === item.key ? '#FFFFFF' : 'rgba(255,255,255,0.45)',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                >
+                  {React.cloneElement(item.icon, { style: { fontSize: '18px' } })}
+                </motion.div>
+              </Tooltip>
+            ))}
+          </Space>
+
+          <Tooltip title="Đăng xuất" placement="right">
+            <motion.div
+              whileHover={{ color: '#ff4d4f', scale: 1.1 }}
+              onClick={handleLogout}
+              style={{ color: 'rgba(255,255,255,0.3)', cursor: 'pointer', fontSize: '18px' }}
+            >
+              <LogoutOutlined />
+            </motion.div>
+          </Tooltip>
+        </motion.div>
+
+        {/* --- MAIN CONTENT --- */}
+        <Layout style={{ background: 'transparent', flex: 1, position: 'relative', minWidth: 0 }}>
+          <Content style={{ 
+            height: '100vh', 
+            overflowY: 'auto', 
+            overflowX: 'hidden',
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedKey}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{
+                  background: TOKENS.surface,
+                  borderRadius: TOKENS.radius,
+                  minHeight: '100%',
+                  padding: '40px',
+                  border: `1px solid ${TOKENS.border}`,
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                  boxSizing: 'border-box',
+                  width: '100%',
+                  overflowX: 'hidden'
+                }}
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          </Content>
+        </Layout>
+
+        {/* --- INTEGRATED AI ASSISTANT PANEL --- */}
+        <AnimatePresence>
+          {isChatOpen && (
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 220 }}
+              style={{
+                width: '380px',
+                background: TOKENS.surface,
+                borderLeft: `1px solid ${TOKENS.border}`,
+                height: '100vh',
+                position: 'fixed',
+                right: 0,
+                top: 0,
+                zIndex: 200,
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: '-12px 0 32px rgba(0,0,0,0.04)'
+              }}
+            >
+              <div style={{ padding: '24px', borderBottom: `1px solid ${TOKENS.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Space>
+                  <RobotOutlined style={{ color: TOKENS.accent, fontSize: '20px' }} />
+                  <Text strong style={{ fontSize: '15px', letterSpacing: '-0.01em' }}>Library Assistant</Text>
+                </Space>
+                <Button type="text" icon={<CloseOutlined style={{ fontSize: '12px' }} />} onClick={() => setIsChatOpen(false)} />
+              </div>
+
+              <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+                <List
+                  dataSource={chatMessages}
+                  renderItem={(msg) => (
+                    <div style={{ 
+                      display: 'flex', 
+                      justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                      marginBottom: '24px'
+                    }}>
+                      <div style={{
+                        maxWidth: '85%',
+                        padding: '12px 14px',
+                        borderRadius: '12px',
+                        background: msg.sender === 'user' ? TOKENS.accent : TOKENS.bg,
+                        color: msg.sender === 'user' ? '#FFFFFF' : TOKENS.text,
+                        border: msg.sender === 'user' ? 'none' : `1px solid ${TOKENS.border}`,
+                        fontSize: '13px'
+                      }}>
+                        {msg.sender === 'bot' ? renderMessageContent(msg.text) : msg.text}
+                      </div>
+                    </div>
+                  )}
+                />
+                {isChatLoading && (
+                  <div style={{ display: 'flex', gap: '8px', padding: '0 4px' }}>
+                    <Spin size="small" />
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              <div style={{ padding: '24px', borderTop: `1px solid ${TOKENS.border}` }}>
+                <Input
+                  placeholder="Ask a question..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onPressEnter={handleSendMessage}
+                  suffix={<SendOutlined onClick={handleSendMessage} style={{ cursor: 'pointer', color: isChatLoading ? TOKENS.muted : TOKENS.accent }} />}
+                  disabled={isChatLoading}
+                  style={{ borderRadius: '8px', padding: '8px 12px', background: TOKENS.bg, border: 'none' }}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* --- FLOATING CONCIERGE TRIGGER --- */}
+        {!isChatOpen && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsChatOpen(true)}
+            style={{
+              position: 'fixed',
+              bottom: '32px',
+              right: '32px',
+              width: '56px',
+              height: '56px',
+              borderRadius: '16px',
+              background: TOKENS.sidebar,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+              zIndex: 150
+            }}
+          >
+            <RobotOutlined style={{ fontSize: '24px', color: '#FFFFFF' }} />
+          </motion.div>
+        )}
+      </Layout>
+    </ConfigProvider>
   );
 };
 

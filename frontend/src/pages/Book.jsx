@@ -216,13 +216,15 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
   if (selectedBook) {
     const isAvailable = selectedBook.availableStock > 0;
     return (
-      <div style={{ padding: '10px' }}>
+      <div style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}>
         {/* Nút quay lại danh mục */}
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => setSelectedBook(null)} style={{ marginBottom: 20, fontSize: '15px' }}>
           Quay lại danh sách sách
         </Button>
 
-        <Row gutter={[40, 24]} style={{ background: '#fff', padding: '20px 0' }}>
+        {/* Bọc Row trong một div có overflow: hidden để chứa gutter âm */}
+        <div style={{ overflow: 'hidden' }}>
+          <Row gutter={[40, 24]} style={{ background: '#fff', padding: '20px 0' }}>
           {/* Cột trái: Ảnh bìa sách phóng to */}
           <Col xs={24} md={9} lg={8} style={{ textAlign: 'center' }}>
             <div style={{ padding: '15px', border: '1px solid #f0f0f0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', background: '#fafafa' }}>
@@ -300,14 +302,15 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
               </div>
             </Space>
           </Col>
-        </Row>
+          </Row>
+        </div>
       </div>
     );
   }
 
   // ==================== GIAO DIỆN 2: THƯƠNG MẠI ĐIỆN TỬ - GRID DANH SÁCH SÁCH ====================
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', boxSizing: 'border-box' }}>
       <div style={{ marginBottom: 25 }}>
         <Title level={3} style={{ margin: 0, fontWeight: 'bold' }}><BookOutlined /> Trung Tâm Khám Phá Sách & Tài Liệu</Title>
         <Text type="secondary">Tìm kiếm, đăng ký giữ chỗ và mượn tài liệu trực tuyến tiện lợi.</Text>
@@ -318,7 +321,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
         <Input
           placeholder="Tìm tên sách, tên tác giả, mã ISBN..."
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />}
-          style={{ width: 350, borderRadius: '6px' }}
+          style={{ width: '100%', maxWidth: 350, borderRadius: '6px' }}
           allowClear
           onChange={(e) => {
             setSearchText(e.target.value);
@@ -345,7 +348,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
         </Button>
         <Select
           defaultValue="ALL"
-          style={{ width: 200, marginLeft: 'auto' }}
+          style={{ width: '100%', maxWidth: 200, marginLeft: 'auto' }}
           onChange={(value) => {
             setSelectedCategory(value);
             setCurrentPage(1); // Đưa về trang 1 khi lọc
@@ -364,19 +367,21 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
             <StarOutlined /> Gợi Ý Dành Riêng Cho Bạn
           </Title>
           <Spin spinning={recommendationLoading}>
-            <div style={{ 
-              display: 'flex', 
-              flexWrap: 'nowrap', 
+            {/* SỬA LỖI CUỘN NGANG: Chuyển sang dùng Grid Layout để kiểm soát chiều rộng tốt hơn */}
+            <div style={{
+              display: 'grid',
+              gridAutoFlow: 'column',
+              gridAutoColumns: '260px', // Cố định chiều rộng mỗi item là 260px
               overflowX: 'auto', 
               gap: '20px', 
-              paddingBottom: '15px',
-              scrollSnapType: 'x mandatory'
+              padding: '4px 4px 20px 4px', // Thêm padding để thanh cuộn không bị dính sát
+              WebkitOverflowScrolling: 'touch', // Hỗ trợ cuộn mượt trên iOS
             }}>
               {recommendedBooks.map((book) => {
                 const hasStock = book.availableStock > 0;
                 return (
-                  <div key={`rec-${book.id}`} style={{ flex: '0 0 auto', width: '260px', scrollSnapAlign: 'start' }}>
-                    <Card
+                  <Card
+                      key={`rec-${book.id}`}
                       hoverable
                       style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #fde68a', boxShadow: '0 4px 12px rgba(245, 158, 11, 0.1)' }}
                       bodyStyle={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
@@ -433,8 +438,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
                           </Button>
                         )}
                       </div>
-                    </Card>
-                  </div>
+                  </Card>
                 );
               })}
             </div>
@@ -444,79 +448,82 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
       )}
 
       {/* Lưới sản phẩm (E-commerce Cards Grid) */}
-      <Row gutter={[20, 20]} loading={loading}>
-        {paginatedBooks.map((book) => {
-          const hasStock = book.availableStock > 0;
-          return (
-            <Col xs={24} sm={12} md={8} lg={6} key={book.id}>
-              {/* Thẻ Card sản phẩm thương mại */}
-              <Card
-                hoverable
-                style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0' }}
-                bodyStyle={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-                cover={
-                  <div style={{ height: '220px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', position: 'relative' }} onClick={() => setSelectedBook(book)}>
-                    <img
-                      alt={book.title}
-                      src={book.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"}
-                      style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }}
-                    />
-                    {/* Badge trạng thái nổi lên trên ảnh bìa sách */}
-                    <div style={{ position: 'absolute', top: 10, right: 10 }}>
-                      <Tag color={hasStock ? 'green' : 'red'} style={{ fontWeight: 'bold', margin: 0, borderRadius: '4px' }}>
-                        {hasStock ? `Sẵn có: ${book.availableStock}` : 'Hết sách'}
-                      </Tag>
+      {/* Bọc Row trong một div có overflow: hidden để chứa gutter âm */}
+      <div style={{ overflow: 'hidden' }}>
+        <Row gutter={[20, 20]} loading={loading}>
+          {paginatedBooks.map((book) => {
+            const hasStock = book.availableStock > 0;
+            return (
+              <Col xs={24} sm={12} md={8} lg={6} key={book.id}>
+                {/* Thẻ Card sản phẩm thương mại */}
+                <Card
+                  hoverable
+                  style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0' }}
+                  bodyStyle={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                  cover={
+                    <div style={{ height: '220px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', position: 'relative' }} onClick={() => setSelectedBook(book)}>
+                      <img
+                        alt={book.title}
+                        src={book.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"}
+                        style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }}
+                      />
+                      {/* Badge trạng thái nổi lên trên ảnh bìa sách */}
+                      <div style={{ position: 'absolute', top: 10, right: 10 }}>
+                        <Tag color={hasStock ? 'green' : 'red'} style={{ fontWeight: 'bold', margin: 0, borderRadius: '4px' }}>
+                          {hasStock ? `Sẵn có: ${book.availableStock}` : 'Hết sách'}
+                        </Tag>
+                      </div>
                     </div>
+                  }
+                >
+                  {/* Phần thông tin chữ của thẻ */}
+                  <div onClick={() => setSelectedBook(book)} style={{ cursor: 'pointer' }}>
+                    <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
+                      {book.category?.name || 'Tài liệu'}
+                    </div>
+                    <Title level={5} style={{ margin: '0 0 6px 0', fontSize: '15px', height: '44px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: '1.4' }}>
+                      {book.title}
+                    </Title>
+                    <Text type="secondary" style={{ fontSize: '12px', display: 'block', height: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      ✍️ {book.author || 'Nhiều tác giả'}
+                    </Text>
                   </div>
-                }
-              >
-                {/* Phần thông tin chữ của thẻ */}
-                <div onClick={() => setSelectedBook(book)} style={{ cursor: 'pointer' }}>
-                  <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
-                    {book.category?.name || 'Tài liệu'}
+
+                  <Divider style={{ margin: '10px 0' }} />
+
+                  {/* Khối nút bấm nhanh dưới đáy Card */}
+                  <div>
+                    {hasStock ? (
+                      <Button 
+                        type="primary" 
+                        block 
+                        size="middle"
+                        icon={<ShoppingCartOutlined />}
+                        onClick={() => handleBorrowOnline(book.id)}
+                        style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#2563eb' }}
+                      >
+                        Mượn Sách
+                      </Button>
+                    ) : (
+                      <Button 
+                        type="primary" 
+                        danger
+                        block 
+                        size="middle"
+                        icon={<CalendarOutlined />}
+                        onClick={() => handleReserveBook(book.id)}
+                        style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#7c3aed', borderColor: '#7c3aed' }}
+                      >
+                        Đặt Trước
+                      </Button>
+                    )}
                   </div>
-                  <Title level={5} style={{ margin: '0 0 6px 0', fontSize: '15px', height: '44px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: '1.4' }}>
-                    {book.title}
-                  </Title>
-                  <Text type="secondary" style={{ fontSize: '12px', display: 'block', height: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    ✍️ {book.author || 'Nhiều tác giả'}
-                  </Text>
-                </div>
-
-                <Divider style={{ margin: '10px 0' }} />
-
-                {/* Khối nút bấm nhanh dưới đáy Card */}
-                <div>
-                  {hasStock ? (
-                    <Button 
-                      type="primary" 
-                      block 
-                      size="middle"
-                      icon={<ShoppingCartOutlined />}
-                      onClick={() => handleBorrowOnline(book.id)}
-                      style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#2563eb' }}
-                    >
-                      Mượn Sách
-                    </Button>
-                  ) : (
-                    <Button 
-                      type="primary" 
-                      danger
-                      block 
-                      size="middle"
-                      icon={<CalendarOutlined />}
-                      onClick={() => handleReserveBook(book.id)}
-                      style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#7c3aed', borderColor: '#7c3aed' }}
-                    >
-                      Đặt Trước
-                    </Button>
-                  )}
-                </div>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
+                </Card>
+              </Col>
+            );
+          })}
+        </Row>
+      </div>
 
       {/* Thanh Phân Trang */}
       {filteredBooks.length > 0 && (
