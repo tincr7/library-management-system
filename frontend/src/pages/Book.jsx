@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Row, Col, Card, Input, Select, Tag, Button, Typography, Badge, message, Space, Divider, Modal, Upload, Pagination, Spin } from 'antd';
-import { SearchOutlined, BookOutlined, UserOutlined, ShoppingCartOutlined, CalendarOutlined, ArrowLeftOutlined, CameraOutlined, ReloadOutlined, StarOutlined } from '@ant-design/icons';
+import { SearchOutlined, BookOutlined, UserOutlined, ShoppingCartOutlined, CalendarOutlined, ArrowLeftOutlined, CameraOutlined, ReloadOutlined, StarOutlined, CloseOutlined } from '@ant-design/icons';
 import axiosClient from '../api/axiosClient';
 
 const { Title, Text, Paragraph } = Typography;
@@ -14,6 +14,9 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
   // State quản lý bộ lọc
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+
+  // 🔥 THÊM STATE: Nhận biết đang hiển thị kết quả từ việc quét ảnh camera
+  const [isImageSearchResult, setIsImageSearchResult] = useState(false);
 
   // State quản lý xem chi tiết sách (Nếu null thì ở danh sách, nếu có data thì sang trang chi tiết)
   const [selectedBook, setSelectedBook] = useState(null);
@@ -30,6 +33,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     fetchBooksAndCategories();
     fetchRecommendations();
   }, []);
+
   useEffect(() => {
     const handleAutoOpenBookDetail = async () => {
       if (!initialBookId) return;
@@ -38,14 +42,11 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
       setLoading(true);
 
       try {
-        // Cách 1: Ưu tiên tìm nhanh trong mảng sách hiện tại nếu đã load xong để đỡ tốn 1 lượt gọi API
         const existBook = books.find(b => b.id === Number(initialBookId));
         
         if (existBook) {
-          setSelectedBook(existBook); // Nhảy thẳng sang giao diện trang chi tiết
+          setSelectedBook(existBook);
         } else {
-          // Cách 2: Nếu chưa load kịp hoặc sách nằm ở trang khác, gọi thẳng API lấy chi tiết của cuốn đó
-          // Tín kiểm tra lại Endpoint chi tiết sách thực tế của dự án bạn (ví dụ: /books/:id hoặc /books/detail/:id)
           const res = await axiosClient.get(`/books/${initialBookId}`);
           if (res.data) {
             setSelectedBook(res.data);
@@ -55,7 +56,6 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
         console.error("❌ Không thể lấy chi tiết cuốn sách từ ID của AI:", error.message);
       } finally {
         setLoading(false);
-        // 🔥 QUAN TRỌNG: Gọi hàm xóa ID tạm thời ở file cha để tránh việc đổi tab bị nhảy lại vào đây
         if (typeof onClearInitialId === 'function') {
           onClearInitialId();
         }
@@ -70,12 +70,13 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     setLoading(true);
     try {
       const [booksRes, catsRes] = await Promise.all([
-        axiosClient.get('/books'),       // API lấy tất cả sách
-        axiosClient.get('/categories')   // API lấy tất cả danh mục sách
+        axiosClient.get('/books'),       
+        axiosClient.get('/categories')   
       ]);
       setBooks(booksRes.data || []);
       setCategories(catsRes.data || []);
-      setCurrentPage(1); // Reset lại trang 1 khi tải lại dữ liệu
+      setCurrentPage(1); 
+      setIsImageSearchResult(false); // Reset lại trạng thái tìm kiếm ảnh khi tải lại
     } catch (err) {
       message.error('Không thể tải danh sách tài liệu từ thư viện!');
     } finally {
@@ -101,19 +102,16 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     }
   };
 
-  // 2. Hàm xử lý Mượn Online (Gửi lệnh tạo BorrowLog PENDING)
+  // 2. Hàm xử lý Mượn Online
   const handleBorrowOnline = async (bookId) => {
     setBtnLoading(true);
     try {
-      // 🌟 BƯỚC 1: Lấy thông tin user đăng nhập từ sessionStorage ra
       const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
-      
       if (!currentUser.id) {
         message.error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!');
         return;
       }
 
-      // 🌟 BƯỚC 2: Gửi kèm cả userId và bookId lên Backend giống hệt Postman
       await axiosClient.post('/borrow-logs', { 
         userId: currentUser.id,
         bookId: bookId 
@@ -132,21 +130,18 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     }
   };
 
-  // 3. Hàm xử lý Đặt trước sách khi hết hàng (Gửi lệnh tạo Reservation PENDING)
+  // 3. Hàm xử lý Đặt trước sách khi hết hàng
   const handleReserveBook = async (bookId) => {
     setBtnLoading(true);
     try {
-      // 🌟 BƯỚC 1: Lấy thông tin user đăng nhập từ sessionStorage ra
       const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
-      
       if (!currentUser.id) {
         message.error('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!');
         return;
       }
 
-      // 🌟 BƯỚC 2: Gửi kèm cả userId và bookId lên cho API đặt trước
       await axiosClient.post('/reservations', { 
-        userId: currentUser.id, // 👈 Thêm dòng này
+        userId: currentUser.id, 
         bookId: bookId 
       });
       
@@ -165,24 +160,22 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     const formData = new FormData();
     formData.append('file', file);
 
-    // 🔥 THÊM ĐOẠN NÀY: Bốc userId từ sessionStorage và đính kèm vào FormData gửi đi
     const currentUser = JSON.parse(sessionStorage.getItem('user') || '{}');
     if (currentUser.id) {
       formData.append('userId', currentUser.id);
     }
 
     try {
-      // Đổi endpoint thành '/ai/predict-book' chuẩn theo file cấu hình của bạn
       const res = await axiosClient.post('/ai/predict-book', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       
-      // Fix: Dữ liệu Backend trả về nằm trong trường `books`
       if (res.data && res.data.success && res.data.books && res.data.books.length > 0) {
-        setBooks(res.data.books); // Ghi đè danh sách kết quả trả về từ AI
-        setCurrentPage(1); // Chuyển về trang 1 để xem kết quả
+        setBooks(res.data.books); 
+        setCurrentPage(1); 
+        setIsImageSearchResult(true); // 🔥 BẬT CỜ: Đánh dấu đang hiển thị kết quả từ AI Camera
         message.success('Đã tìm thấy sách tương tự từ hình ảnh!');
       } else {
         message.warning('Không nhận diện được sách nào từ hình ảnh này!');
@@ -212,103 +205,97 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
     return filteredBooks.slice(startIndex, startIndex + pageSize);
   }, [filteredBooks, currentPage]);
 
-  // ==================== GIAO DIỆN 1: CHI TIẾT SÁCH (COMMERCE STYLE) ====================
+  // ==================== GIAO DIỆN 1: CHI TIẾT SÁCH ====================
   if (selectedBook) {
     const isAvailable = selectedBook.availableStock > 0;
     return (
       <div style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}>
-        {/* Nút quay lại danh mục */}
         <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => setSelectedBook(null)} style={{ marginBottom: 20, fontSize: '15px' }}>
           Quay lại danh sách sách
         </Button>
 
-        {/* Bọc Row trong một div có overflow: hidden để chứa gutter âm */}
         <div style={{ overflow: 'hidden' }}>
           <Row gutter={[40, 24]} style={{ background: '#fff', padding: '20px 0' }}>
-          {/* Cột trái: Ảnh bìa sách phóng to */}
-          <Col xs={24} md={9} lg={8} style={{ textAlign: 'center' }}>
-            <div style={{ padding: '15px', border: '1px solid #f0f0f0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', background: '#fafafa' }}>
-              <img 
-                src={selectedBook.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"} 
-                alt={selectedBook.title}
-                style={{ width: '100%', maxHeight: '420px', objectFit: 'contain', borderRadius: '8px' }}
-              />
-            </div>
-          </Col>
-
-          {/* Cột phải: Thông tin chi tiết thương mại & Nút hành động */}
-          <Col xs={24} md={15} lg={16}>
-            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-              <div>
-                <Tag color="blue" style={{ marginBottom: 8, fontWeight: 'bold' }}>{selectedBook.category?.name || 'Tài liệu chung'}</Tag>
-                <Title level={2} style={{ margin: '0 0 10px 0', fontSize: '28px', color: '#1a1a1a' }}>{selectedBook.title}</Title>
-                <Text type="secondary" style={{ fontSize: '15px' }}><UserOutlined /> Tác giả: <b>{selectedBook.author || 'Chưa cập nhật'}</b> | ISBN: {selectedBook.isbn || 'N/A'}</Text>
+            <Col xs={24} md={9} lg={8} style={{ textAlign: 'center' }}>
+              <div style={{ padding: '15px', border: '1px solid #f0f0f0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', background: '#fafafa' }}>
+                <img 
+                  src={selectedBook.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"} 
+                  alt={selectedBook.title}
+                  style={{ width: '100%', maxHeight: '420px', objectFit: 'contain', borderRadius: '8px' }}
+                />
               </div>
+            </Col>
 
-              <Divider style={{ margin: '10px 0' }} />
-
-              {/* Khối hiển thị Kho hàng / Trạng thái trên kệ */}
-              <div style={{ background: '#f5f7fa', padding: '20px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '40px' }}>
+            <Col xs={24} md={15} lg={16}>
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                 <div>
-                  <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Trạng thái tài liệu</div>
-                  <div style={{ marginTop: 4 }}>
-                    {isAvailable ? <Tag color="green" style={{fontWeight:'bold'}}>CÒN SÁCH TRÊN KỆ</Tag> : <Tag color="red" style={{fontWeight:'bold'}}>HẾT SÁCH TẠM THỜI</Tag>}
+                  <Tag color="blue" style={{ marginBottom: 8, fontWeight: 'bold' }}>{selectedBook.category?.name || 'Tài liệu chung'}</Tag>
+                  <Title level={2} style={{ margin: '0 0 10px 0', fontSize: '28px', color: '#1a1a1a' }}>{selectedBook.title}</Title>
+                  <Text type="secondary" style={{ fontSize: '15px' }}><UserOutlined /> Tác giả: <b>{selectedBook.author || 'Chưa cập nhật'}</b> | ISBN: {selectedBook.isbn || 'N/A'}</Text>
+                </div>
+
+                <Divider style={{ margin: '10px 0' }} />
+
+                <div style={{ background: '#f5f7fa', padding: '20px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '40px' }}>
+                  <div>
+                    <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Trạng thái tài liệu</div>
+                    <div style={{ marginTop: 4 }}>
+                      {isAvailable ? <Tag color="green" style={{fontWeight:'bold'}}>CÒN SÁCH TRÊN KỆ</Tag> : <Tag color="red" style={{fontWeight:'bold'}}>HẾT SÁCH TẠM THỜI</Tag>}
+                    </div>
+                  </div>
+                  <Divider type="vertical" style={{ height: '40px', background: '#d9d9d9' }} />
+                  <div>
+                    <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Số lượng sẵn có</div>
+                    <div style={{ fontSize: '22px', fontWeight: 'bold', color: isAvailable ? '#52c41a' : '#f5222d', marginTop: 2 }}>
+                      {selectedBook.availableStock} <span style={{ fontSize: '14px', fontWeights: 400, color: '#8c8c8c' }}>/ {selectedBook.totalStock} cuốn</span>
+                    </div>
                   </div>
                 </div>
-                <Divider type="vertical" style={{ height: '40px', background: '#d9d9d9' }} />
-                <div>
-                  <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Số lượng sẵn có</div>
-                  <div style={{ fontSize: '22px', fontWeight: 'bold', color: isAvailable ? '#52c41a' : '#f5222d', marginTop: 2 }}>
-                    {selectedBook.availableStock} <span style={{ fontSize: '14px', fontWeights: 400, color: '#8c8c8c' }}>/ {selectedBook.totalStock} cuốn</span>
-                  </div>
+
+                <div style={{ marginTop: 15 }}>
+                  {isAvailable ? (
+                    <Button 
+                      type="primary" 
+                      icon={<ShoppingCartOutlined />} 
+                      size="large"
+                      loading={btnLoading}
+                      onClick={() => handleBorrowOnline(selectedBook.id)}
+                      style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#1d4ed8', boxShadow: '0 4px 14px rgba(29, 78, 216, 0.3)' }}
+                    >
+                      Đăng Ký Mượn Online ngay
+                    </Button>
+                  ) : (
+                    <Button 
+                      type="primary" 
+                      danger
+                      icon={<CalendarOutlined />} 
+                      size="large"
+                      loading={btnLoading}
+                      onClick={() => handleReserveBook(selectedBook.id)}
+                      style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#7c3aed', borderColor: '#7c3aed', boxShadow: '0 4px 14px rgba(124, 58, 237, 0.3)' }}
+                    >
+                      Xếp hàng đặt trước sách
+                    </Button>
+                  )}
                 </div>
-              </div>
 
-              {/* Nút hành động Mượn hoặc Đặt trước */}
-              <div style={{ marginTop: 15 }}>
-                {isAvailable ? (
-                  <Button 
-                    type="primary" 
-                    icon={<ShoppingCartOutlined />} 
-                    size="large"
-                    loading={btnLoading}
-                    onClick={() => handleBorrowOnline(selectedBook.id)}
-                    style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#1d4ed8', boxShadow: '0 4px 14px rgba(29, 78, 216, 0.3)' }}
-                  >
-                    Đăng Ký Mượn Online ngay
-                  </Button>
-                ) : (
-                  <Button 
-                    type="primary" 
-                    danger
-                    icon={<CalendarOutlined />} 
-                    size="large"
-                    loading={btnLoading}
-                    onClick={() => handleReserveBook(selectedBook.id)}
-                    style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#7c3aed', borderColor: '#7c3aed', boxShadow: '0 4px 14px rgba(124, 58, 237, 0.3)' }}
-                  >
-                    Xếp hàng đặt trước sách
-                  </Button>
-                )}
-              </div>
+                <Divider style={{ margin: '15px 0' }} />
 
-              <Divider style={{ margin: '15px 0' }} />
-
-              <div>
-                <Title level={4} style={{ fontSize: '16px', marginBottom: 10 }}>Tóm tắt / Mô tả nội dung:</Title>
-                <Paragraph style={{ color: '#434343', fontSize: '15px', lineHeight: '1.7', textAlign: 'justify' }}>
-                  {selectedBook.description || 'Chưa có bài viết tóm tắt chi tiết cho đầu sách này. Vui lòng liên hệ quầy hỗ trợ thư viện để biết thêm thông tin cụ thể.'}
-                </Paragraph>
-              </div>
-            </Space>
-          </Col>
+                <div>
+                  <Title level={4} style={{ fontSize: '16px', marginBottom: 10 }}>Tóm tắt / Mô tả nội dung:</Title>
+                  <Paragraph style={{ color: '#434343', fontSize: '15px', lineHeight: '1.7', textAlign: 'justify' }}>
+                    {selectedBook.description || 'Chưa có bài viết tóm tắt chi tiết cho đầu sách này. Vui lòng liên hệ quầy hỗ trợ thư viện để biết thêm thông tin cụ thể.'}
+                  </Paragraph>
+                </div>
+              </Space>
+            </Col>
           </Row>
         </div>
       </div>
     );
   }
 
-  // ==================== GIAO DIỆN 2: THƯƠNG MẠI ĐIỆN TỬ - GRID DANH SÁCH SÁCH ====================
+  // ==================== GIAO DIỆN 2: GRID DANH SÁCH SÁCH ====================
   return (
     <div style={{ width: '100%', boxSizing: 'border-box' }}>
       <div style={{ marginBottom: 25 }}>
@@ -325,7 +312,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
           allowClear
           onChange={(e) => {
             setSearchText(e.target.value);
-            setCurrentPage(1); // Đưa về trang 1 khi tìm kiếm
+            setCurrentPage(1); 
           }}
         />
         <Upload
@@ -333,7 +320,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
           showUploadList={false}
           beforeUpload={(file) => {
             handleImageSearch(file);
-            return false; // Ngăn chặn hành vi upload tự động của antd
+            return false; 
           }}
         >
           <Button icon={<CameraOutlined />} loading={loading} style={{ borderRadius: '6px' }}>
@@ -351,7 +338,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
           style={{ width: '100%', maxWidth: 200, marginLeft: 'auto' }}
           onChange={(value) => {
             setSelectedCategory(value);
-            setCurrentPage(1); // Đưa về trang 1 khi lọc
+            setCurrentPage(1); 
           }}
           options={[
             { value: 'ALL', label: '📂 Tất cả danh mục' },
@@ -360,22 +347,48 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
         />
       </div>
 
+      {/* 🔥 THÊM KHỐI HIỂN THỊ TIÊU ĐỀ: Kết quả tìm kiếm bằng hình ảnh AI */}
+      {isImageSearchResult && (
+        <div style={{ 
+          marginBottom: 20, 
+          padding: '12px 20px', 
+          background: '#eff6ff', 
+          borderLeft: '4px solid #2563eb', 
+          borderRadius: '0 8px 8px 0',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div>
+            <Text strong style={{ color: '#1e40af', fontSize: '16px' }}>🔍 Kết quả tìm kiếm bằng hình ảnh</Text>
+          </div>
+          <Button 
+            type="dashed" 
+            danger 
+            icon={<CloseOutlined />} 
+            size="small"
+            onClick={fetchBooksAndCategories} // Bấm vào nút xóa bộ lọc thì load lại toàn bộ thư viện
+          >
+            Xóa bộ lọc ảnh
+          </Button>
+        </div>
+      )}
+
       {/* Phần Gợi ý cho bạn */}
-      {!searchText && selectedCategory === 'ALL' && recommendedBooks.length > 0 && (
+      {!searchText && selectedCategory === 'ALL' && !isImageSearchResult && recommendedBooks.length > 0 && (
         <div style={{ marginBottom: 30 }}>
           <Title level={4} style={{ marginBottom: 16, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <StarOutlined /> Gợi Ý Dành Riêng Cho Bạn
           </Title>
           <Spin spinning={recommendationLoading}>
-            {/* SỬA LỖI CUỘN NGANG: Chuyển sang dùng Grid Layout để kiểm soát chiều rộng tốt hơn */}
             <div style={{
               display: 'grid',
               gridAutoFlow: 'column',
-              gridAutoColumns: '260px', // Cố định chiều rộng mỗi item là 260px
+              gridAutoColumns: '260px', 
               overflowX: 'auto', 
               gap: '20px', 
-              padding: '4px 4px 20px 4px', // Thêm padding để thanh cuộn không bị dính sát
-              WebkitOverflowScrolling: 'touch', // Hỗ trợ cuộn mượt trên iOS
+              padding: '4px 4px 20px 4px', 
+              WebkitOverflowScrolling: 'touch', 
             }}>
               {recommendedBooks.map((book) => {
                 const hasStock = book.availableStock > 0;
@@ -447,15 +460,13 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
         </div>
       )}
 
-      {/* Lưới sản phẩm (E-commerce Cards Grid) */}
-      {/* Bọc Row trong một div có overflow: hidden để chứa gutter âm */}
+      {/* Lưới sản phẩm */}
       <div style={{ overflow: 'hidden' }}>
         <Row gutter={[20, 20]} loading={loading}>
           {paginatedBooks.map((book) => {
             const hasStock = book.availableStock > 0;
             return (
               <Col xs={24} sm={12} md={8} lg={6} key={book.id}>
-                {/* Thẻ Card sản phẩm thương mại */}
                 <Card
                   hoverable
                   style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0' }}
@@ -467,7 +478,6 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
                         src={book.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"}
                         style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }}
                       />
-                      {/* Badge trạng thái nổi lên trên ảnh bìa sách */}
                       <div style={{ position: 'absolute', top: 10, right: 10 }}>
                         <Tag color={hasStock ? 'green' : 'red'} style={{ fontWeight: 'bold', margin: 0, borderRadius: '4px' }}>
                           {hasStock ? `Sẵn có: ${book.availableStock}` : 'Hết sách'}
@@ -476,7 +486,6 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
                     </div>
                   }
                 >
-                  {/* Phần thông tin chữ của thẻ */}
                   <div onClick={() => setSelectedBook(book)} style={{ cursor: 'pointer' }}>
                     <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
                       {book.category?.name || 'Tài liệu'}
@@ -491,7 +500,6 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
 
                   <Divider style={{ margin: '10px 0' }} />
 
-                  {/* Khối nút bấm nhanh dưới đáy Card */}
                   <div>
                     {hasStock ? (
                       <Button 

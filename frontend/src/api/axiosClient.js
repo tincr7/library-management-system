@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:3001', // Port của NestJS
+  baseURL: 'http://157.66.101.2:3001',
+  //baseURL: 'http://localhost:3001', // Port của NestJS
   headers: { 'Content-Type': 'application/json' }
 });
 

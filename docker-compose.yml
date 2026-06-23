@@ -1,23 +1,56 @@
 version: '3.8'
+
 services:
   postgres:
     image: postgres:15
+    container_name: library_postgres
     restart: always
     environment:
       POSTGRES_USER: dht_admin
-      POSTGRES_PASSWORD: 123456
+      POSTGRES_PASSWORD: '123456'
       POSTGRES_DB: smart_library
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # Adminer giúp bạn xem Database qua trình duyệt cực nhanh
   adminer:
     image: adminer
+    container_name: library_adminer
     restart: always
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+
+  backend:
+    build: ./backend-nestjs             # VPS sẽ tự build dựa vào Dockerfile trong thư mục backend
+    container_name: library_backend
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "postgresql://dht_admin:123456@postgres:5432/smart_library?schema=public"
+    depends_on:
+      - postgres
+
+  ai-service:
+    build: ./ai-service          # Tên thư mục chứa code python của Tín (sửa lại cho đúng tên thư mục thật nhé)
+    container_name: library_ai
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build: ./frontend            # VPS sẽ tự build dựa vào Dockerfile trong thư mục frontend
+    container_name: library_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
