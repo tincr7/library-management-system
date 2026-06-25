@@ -33,7 +33,21 @@ const ReservationManagement = () => {
   };
 
   const filteredData = useMemo(() => {
-    return reservations.filter(item => {
+    // Định nghĩa thứ tự ưu tiên của các trạng thái
+    const statusOrder = {
+      'PENDING': 1,   // Cần duyệt lên đầu
+      'APPROVED': 2,  // Đã duyệt xếp sau
+      'COMPLETED': 3, // Đã hoàn tất
+      'CANCELLED': 4, // Đã hủy xếp cuối
+    };
+
+    // Sắp xếp lại mảng reservations nhận từ API
+    const sortedReservations = [...reservations].sort((a, b) => {
+      // So sánh dựa trên "trọng số" của trạng thái
+      return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+    });
+
+    return sortedReservations.filter(item => {
       const matchesSearch = 
         item.user?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
         item.user?.mssv?.toLowerCase().includes(searchText.toLowerCase()) ||

@@ -38,14 +38,26 @@ const BorrowManagement = () => {
 
   // 3. Khối logic tìm kiếm và lọc trạng thái kết hợp useMemo
   const filteredLogs = useMemo(() => {
-    return logs.filter(log => {
+    // Định nghĩa thứ tự ưu tiên của các trạng thái
+    const statusOrder = {
+      'PENDING': 1,
+      'BORROWING': 2,
+      'OVERDUE': 3,
+      'RETURNED': 4,
+      'REJECTED': 5,
+    };
+
+    const sortedLogs = [...logs].sort((a, b) => {
+      return (statusOrder[a.status] || 99) - (statusOrder[b.status] || 99);
+    });
+
+    return sortedLogs.filter(log => {
       const matchesSearch = 
         log.user?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
         log.user?.mssv?.toLowerCase().includes(searchText.toLowerCase()) ||
         log.book?.title?.toLowerCase().includes(searchText.toLowerCase());
       
       const matchesStatus = statusFilter === 'ALL' || log.status === statusFilter;
-
       return matchesSearch && matchesStatus;
     });
   }, [logs, searchText, statusFilter]);

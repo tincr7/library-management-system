@@ -40,7 +40,10 @@ const TOKENS = {
 };
 
 const Home = () => {
-  const [selectedKey, setSelectedKey] = useState('1');
+  // 1. Đọc key từ localStorage khi component được tải, nếu không có thì mặc định là '1'
+  const [selectedKey, setSelectedKey] = useState(
+    () => localStorage.getItem('studentSelectedNavKey') || '1'
+  );
   const [user, setUser] = useState(null);
   const [selectedBookId, setSelectedBookId] = useState(null);
 
@@ -52,6 +55,11 @@ const Home = () => {
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // 2. Tự động lưu lại key vào localStorage mỗi khi người dùng chọn tab mới
+  useEffect(() => {
+    localStorage.setItem('studentSelectedNavKey', selectedKey);
+  }, [selectedKey]);
 
   useEffect(() => {
     if (isChatOpen) {
@@ -92,7 +100,7 @@ const Home = () => {
 
   const renderContent = () => {
     switch (selectedKey) {
-      case '1': return <StudentDashboard />;
+      case '1': return <StudentDashboard onNavigate={setSelectedKey} />;
       case '2': return (
         <BookSearch 
           initialBookId={selectedBookId} 
@@ -133,8 +141,8 @@ const Home = () => {
         {books.length > 0 && (
           <div style={{ marginTop: '12px' }}>
             <Row gutter={[12, 12]}>
-              {books.map((book) => (
-                <Col span={12} key={book.id}>
+              {books.map((book) => ( // Sửa: Cho sách chiếm toàn bộ chiều rộng trên màn hình chat nhỏ
+                <Col xs={24} sm={12} key={book.id}>
                   <Card
                     hoverable
                     bordered={false}
@@ -266,7 +274,7 @@ const Home = () => {
             height: '100vh', 
             overflowY: 'auto', 
             overflowX: 'hidden',
-            padding: '32px',
+            padding: 'clamp(16px, 3vw, 32px)', // Tự co giãn padding
             display: 'flex',
             flexDirection: 'column'
           }}>
@@ -280,8 +288,8 @@ const Home = () => {
                 style={{
                   background: TOKENS.surface,
                   borderRadius: TOKENS.radius,
-                  minHeight: '100%',
-                  padding: '40px',
+                  minHeight: 'calc(100% - 2px)', // Fix lỗi nhỏ về chiều cao
+                  padding: 'clamp(20px, 4vw, 40px)', // Tự co giãn padding
                   border: `1px solid ${TOKENS.border}`,
                   boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
                   boxSizing: 'border-box',
@@ -304,7 +312,7 @@ const Home = () => {
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
               style={{
-                width: '380px',
+                width: 'min(100%, 380px)', // Chiều rộng linh hoạt
                 background: TOKENS.surface,
                 borderLeft: `1px solid ${TOKENS.border}`,
                 height: '100vh',

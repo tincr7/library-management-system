@@ -209,19 +209,60 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
   if (selectedBook) {
     const isAvailable = selectedBook.availableStock > 0;
     return (
-      <div style={{ padding: '10px', width: '100%', boxSizing: 'border-box' }}>
-        <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => setSelectedBook(null)} style={{ marginBottom: 20, fontSize: '15px' }}>
+      <div style={{ padding: '8px', width: '100%', boxSizing: 'border-box' }}>
+        <style>{`
+          /* Custom responsive css cho trang chi tiết sách */
+          .detail-status-container {
+            background: #f5f7fa; 
+            padding: 16px; 
+            border-radius: 12px; 
+            display: flex; 
+            flex-direction: row; /* Mặc định PC là hàng ngang */
+            align-items: center; 
+            gap: 24px;
+          }
+          .detail-btn-action {
+            height: 50px; 
+            padding: 0 24px; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 15px; 
+            width: auto; /* Mặc định PC tự co giãn */
+          }
+          
+          /* Điện thoại di động (< 576px) */
+          @media (max-width: 576px) {
+            .detail-status-container {
+              flex-direction: column !important; /* Xếp dọc 2 khối trạng thái */
+              align-items: flex-start !important;
+              gap: 16px !important;
+            }
+            .detail-status-divider {
+              display: none !important; /* Ẩn vạch chia đứng trên mobile */
+            }
+            .detail-btn-action {
+              width: 100% !important; /* Ép nút mượn sách rộng 100% trên điện thoại */
+              font-size: 14px !important;
+              padding: 0 12px !important;
+              white-space: normal !important; /* Cho phép chữ tự xuống dòng nếu quá dài */
+              height: auto !important;
+              min-height: 48px !important;
+            }
+          }
+        `}</style>
+
+        <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => setSelectedBook(null)} style={{ marginBottom: 16, fontSize: '15px' }}>
           Quay lại danh sách sách
         </Button>
 
         <div style={{ overflow: 'hidden' }}>
-          <Row gutter={[40, 24]} style={{ background: '#fff', padding: '20px 0' }}>
+          <Row gutter={[24, 24]} style={{ background: '#fff', padding: '10px 0' }}>
             <Col xs={24} md={9} lg={8} style={{ textAlign: 'center' }}>
-              <div style={{ padding: '15px', border: '1px solid #f0f0f0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', background: '#fafafa' }}>
+              <div style={{ padding: '12px', border: '1px solid #f0f0f0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.03)', background: '#fafafa' }}>
                 <img 
                   src={selectedBook.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"} 
                   alt={selectedBook.title}
-                  style={{ width: '100%', maxHeight: '420px', objectFit: 'contain', borderRadius: '8px' }}
+                  style={{ width: '100%', maxHeight: '340px', objectFit: 'contain', borderRadius: '8px' }}
                 />
               </div>
             </Col>
@@ -230,60 +271,65 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
                 <div>
                   <Tag color="blue" style={{ marginBottom: 8, fontWeight: 'bold' }}>{selectedBook.category?.name || 'Tài liệu chung'}</Tag>
-                  <Title level={2} style={{ margin: '0 0 10px 0', fontSize: '28px', color: '#1a1a1a' }}>{selectedBook.title}</Title>
-                  <Text type="secondary" style={{ fontSize: '15px' }}><UserOutlined /> Tác giả: <b>{selectedBook.author || 'Chưa cập nhật'}</b> | ISBN: {selectedBook.isbn || 'N/A'}</Text>
+                  <Title level={2} style={{ margin: '0 0 8px 0', fontSize: '24px', color: '#1a1a1a', lineHeight: '1.3' }}>{selectedBook.title}</Title>
+                  <Text type="secondary" style={{ fontSize: '14px', display: 'block' }}><UserOutlined /> Tác giả: <b>{selectedBook.author || 'Chưa cập nhật'}</b></Text>
+                  <Text type="secondary" style={{ fontSize: '13px', display: 'block', marginTop: '2px' }}>ISBN: {selectedBook.isbn || 'N/A'}</Text>
                 </div>
 
-                <Divider style={{ margin: '10px 0' }} />
+                <Divider style={{ margin: '8px 0' }} />
 
-                <div style={{ background: '#f5f7fa', padding: '20px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '40px' }}>
+                {/* Khối trạng thái áp dụng Class rút gọn trên điện thoại */}
+                <div className="detail-status-container">
                   <div>
-                    <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Trạng thái tài liệu</div>
+                    <div style={{ fontSize: '12px', color: '#8c8c8c' }}>Trạng thái tài liệu</div>
                     <div style={{ marginTop: 4 }}>
-                      {isAvailable ? <Tag color="green" style={{fontWeight:'bold'}}>CÒN SÁCH TRÊN KỆ</Tag> : <Tag color="red" style={{fontWeight:'bold'}}>HẾT SÁCH TẠM THỜI</Tag>}
+                      {isAvailable ? <Tag color="green" style={{fontWeight:'bold', margin:0}}>CÒN SÁCH TRÊN KỆ</Tag> : <Tag color="red" style={{fontWeight:'bold', margin:0}}>HẾT SÁCH TẠM THỜI</Tag>}
                     </div>
                   </div>
-                  <Divider type="vertical" style={{ height: '40px', background: '#d9d9d9' }} />
+                  
+                  <Divider type="vertical" className="detail-status-divider" style={{ height: '40px', background: '#d9d9d9', margin: 0 }} />
+                  
                   <div>
-                    <div style={{ fontSize: '13px', color: '#8c8c8c' }}>Số lượng sẵn có</div>
-                    <div style={{ fontSize: '22px', fontWeight: 'bold', color: isAvailable ? '#52c41a' : '#f5222d', marginTop: 2 }}>
-                      {selectedBook.availableStock} <span style={{ fontSize: '14px', fontWeights: 400, color: '#8c8c8c' }}>/ {selectedBook.totalStock} cuốn</span>
+                    <div style={{ fontSize: '12px', color: '#8c8c8c' }}>Số lượng sẵn có</div>
+                    <div style={{ fontSize: '18px', fontWeight: 'bold', color: isAvailable ? '#52c41a' : '#f5222d', marginTop: 2 }}>
+                      {selectedBook.availableStock} <span style={{ fontSize: '13px', fontWeight: 400, color: '#8c8c8c' }}>/ {selectedBook.totalStock} cuốn</span>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ marginTop: 15 }}>
+                {/* Nút hành động áp dụng Class tự co giãn */}
+                <div style={{ marginTop: 8 }}>
                   {isAvailable ? (
                     <Button 
                       type="primary" 
                       icon={<ShoppingCartOutlined />} 
-                      size="large"
+                      className="detail-btn-action"
                       loading={btnLoading}
                       onClick={() => handleBorrowOnline(selectedBook.id)}
-                      style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#1d4ed8', boxShadow: '0 4px 14px rgba(29, 78, 216, 0.3)' }}
+                      style={{ background: '#1d4ed8', borderColor: '#1d4ed8', boxShadow: '0 4px 14px rgba(29, 78, 216, 0.3)' }}
                     >
-                      Đăng Ký Mượn Online ngay
+                      Đăng Ký Mượn Online
                     </Button>
                   ) : (
                     <Button 
                       type="primary" 
                       danger
                       icon={<CalendarOutlined />} 
-                      size="large"
+                      className="detail-btn-action"
                       loading={btnLoading}
                       onClick={() => handleReserveBook(selectedBook.id)}
-                      style={{ height: '50px', padding: '0 40px', borderRadius: '8px', fontWeight: 600, fontSize: '16px', background: '#7c3aed', borderColor: '#7c3aed', boxShadow: '0 4px 14px rgba(124, 58, 237, 0.3)' }}
+                      style={{ background: '#7c3aed', borderColor: '#7c3aed', boxShadow: '0 4px 14px rgba(124, 58, 237, 0.3)' }}
                     >
                       Xếp hàng đặt trước sách
                     </Button>
                   )}
                 </div>
 
-                <Divider style={{ margin: '15px 0' }} />
+                <Divider style={{ margin: '8px 0' }} />
 
                 <div>
-                  <Title level={4} style={{ fontSize: '16px', marginBottom: 10 }}>Tóm tắt / Mô tả nội dung:</Title>
-                  <Paragraph style={{ color: '#434343', fontSize: '15px', lineHeight: '1.7', textAlign: 'justify' }}>
+                  <Title level={4} style={{ fontSize: '15px', marginBottom: 8 }}>Tóm tắt / Mô tả nội dung:</Title>
+                  <Paragraph style={{ color: '#434343', fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', margin: 0 }}>
                     {selectedBook.description || 'Chưa có bài viết tóm tắt chi tiết cho đầu sách này. Vui lòng liên hệ quầy hỗ trợ thư viện để biết thêm thông tin cụ thể.'}
                   </Paragraph>
                 </div>
@@ -378,7 +424,7 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
       {!searchText && selectedCategory === 'ALL' && !isImageSearchResult && recommendedBooks.length > 0 && (
         <div style={{ marginBottom: 30 }}>
           <Title level={4} style={{ marginBottom: 16, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <StarOutlined /> Gợi Ý Dành Riêng Cho Bạn
+            <StarOutlined /> Gợi ý dành cho bạn
           </Title>
           <Spin spinning={recommendationLoading}>
             <div style={{
@@ -417,7 +463,20 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
                         <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
                           {book.category?.name || 'Tài liệu'}
                         </div>
-                        <Title level={5} style={{ margin: '0 0 6px 0', fontSize: '15px', height: '44px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: '1.4' }}>
+                        <Title 
+                          level={5} 
+                          style={{ 
+                            margin: '0 0 6px 0', 
+                            fontSize: '14px', 
+                            lineHeight: '1.4',
+                            height: '40px',             // Đồng bộ chiều cao tránh lệch hàng Card
+                            overflow: 'hidden', 
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2, 
+                            WebkitBoxOrient: 'vertical',
+                            textOverflow: 'ellipsis'    // ÉP HIỂN THỊ DẤU ... KHI QUÁ 2 DÒNG Ở PHẦN GỢI Ý
+                          }}
+                        >
                           {book.title}
                         </Title>
                         <Text type="secondary" style={{ fontSize: '12px', display: 'block', height: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -461,77 +520,94 @@ const BookSearch = ({ initialBookId, onClearInitialId })=> {
       )}
 
       {/* Lưới sản phẩm */}
-      <div style={{ overflow: 'hidden' }}>
-        <Row gutter={[20, 20]} loading={loading}>
-          {paginatedBooks.map((book) => {
-            const hasStock = book.availableStock > 0;
-            return (
-              <Col xs={24} sm={12} md={8} lg={6} key={book.id}>
-                <Card
-                  hoverable
-                  style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0' }}
-                  bodyStyle={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-                  cover={
-                    <div style={{ height: '220px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', position: 'relative' }} onClick={() => setSelectedBook(book)}>
-                      <img
-                        alt={book.title}
-                        src={book.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"}
-                        style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }}
-                      />
-                      <div style={{ position: 'absolute', top: 10, right: 10 }}>
-                        <Tag color={hasStock ? 'green' : 'red'} style={{ fontWeight: 'bold', margin: 0, borderRadius: '4px' }}>
-                          {hasStock ? `Sẵn có: ${book.availableStock}` : 'Hết sách'}
-                        </Tag>
-                      </div>
-                    </div>
-                  }
+      {/* Lưới sản phẩm */}
+<div style={{ overflow: 'hidden' }}>
+  <Row gutter={[16, 16]} loading={loading}> {/* Có thể hạ bớt gutter xuống 16 cho mobile đỡ bị thưa */}
+    {paginatedBooks.map((book) => {
+      const hasStock = book.availableStock > 0;
+      return (
+        // ĐỔI xs={24} THÀNH xs={12} ĐỂ HIỂN THỊ 2 QUYỂN TRÊN MỘT HÀNG MOBILE
+        <Col xs={12} sm={12} md={8} lg={6} key={book.id}>
+          <Card
+            hoverable
+            style={{ borderRadius: '10px', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', border: '1px solid #e2e8f0' }}
+            bodyStyle={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+            cover={
+              <div style={{ height: '180px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px', position: 'relative' }} onClick={() => setSelectedBook(book)}>
+                {/* 💡 Mẹo nhỏ: Hạ bớt height của khung ảnh từ 220px xuống 180px cho cân đối với màn hình điện thoại nhỏ */}
+                <img
+                  alt={book.title}
+                  src={book.coverImage || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=500"}
+                  style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain', borderRadius: '4px' }}
+                />
+                <div style={{ position: 'absolute', top: 10, right: 10 }}>
+                  <Tag color={hasStock ? 'green' : 'red'} style={{ fontWeight: 'bold', margin: 0, borderRadius: '4px', fontSize: '10px', padding: '0 4px' }}>
+                    {hasStock ? `Sẵn có: ${book.availableStock}` : 'Hết sách'}
+                  </Tag>
+                </div>
+              </div>
+            }
+          >
+            <div onClick={() => setSelectedBook(book)} style={{ cursor: 'pointer' }}>
+              <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
+                {book.category?.name || 'Tài liệu'}
+              </div>
+              {/* Giữ nguyên line clamp để tiêu đề không bị vỡ dòng */}
+              <Title 
+              level={5} 
+              style={{ 
+                margin: '0 0 6px 0', 
+                fontSize: '14px', 
+                lineHeight: '1.4',
+                height: '40px',             // Chiều cao vừa vặn cho 2 dòng chữ
+                overflow: 'hidden',         // Ẩn hoàn toàn phần chữ thừa
+                display: '-webkit-box',
+                WebkitLineClamp: 2,         // Giới hạn tối đa hiển thị 2 dòng
+                WebkitBoxOrient: 'vertical',
+                textOverflow: 'ellipsis'    // ÉP HIỂN THỊ DẤU ... KHI QUÁ 2 DÒNG
+              }}
+            >
+              {book.title}
+            </Title>
+              <Text type="secondary" style={{ fontSize: '12px', display: 'block', height: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                ✍️ {book.author || 'Nhiều tác giả'}
+              </Text>
+            </div>
+
+            <Divider style={{ margin: '10px 0' }} />
+
+            <div>
+              {hasStock ? (
+                <Button 
+                  type="primary" 
+                  block 
+                  size="middle"
+                  icon={<ShoppingCartOutlined />}
+                  onClick={() => handleBorrowOnline(book.id)}
+                  style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#2563eb' }}
                 >
-                  <div onClick={() => setSelectedBook(book)} style={{ cursor: 'pointer' }}>
-                    <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>
-                      {book.category?.name || 'Tài liệu'}
-                    </div>
-                    <Title level={5} style={{ margin: '0 0 6px 0', fontSize: '15px', height: '44px', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', lineHeight: '1.4' }}>
-                      {book.title}
-                    </Title>
-                    <Text type="secondary" style={{ fontSize: '12px', display: 'block', height: '20px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      ✍️ {book.author || 'Nhiều tác giả'}
-                    </Text>
-                  </div>
-
-                  <Divider style={{ margin: '10px 0' }} />
-
-                  <div>
-                    {hasStock ? (
-                      <Button 
-                        type="primary" 
-                        block 
-                        size="middle"
-                        icon={<ShoppingCartOutlined />}
-                        onClick={() => handleBorrowOnline(book.id)}
-                        style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#2563eb' }}
-                      >
-                        Mượn Sách
-                      </Button>
-                    ) : (
-                      <Button 
-                        type="primary" 
-                        danger
-                        block 
-                        size="middle"
-                        icon={<CalendarOutlined />}
-                        onClick={() => handleReserveBook(book.id)}
-                        style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#7c3aed', borderColor: '#7c3aed' }}
-                      >
-                        Đặt Trước
-                      </Button>
-                    )}
-                  </div>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
+                  Mượn Sách
+                </Button>
+              ) : (
+                <Button 
+                  type="primary" 
+                  danger
+                  block 
+                  size="middle"
+                  icon={<CalendarOutlined />}
+                  onClick={() => handleReserveBook(book.id)}
+                  style={{ borderRadius: '6px', fontSize: '13px', fontWeight: 600, background: '#7c3aed', borderColor: '#7c3aed' }}
+                >
+                  Đặt Trước
+                </Button>
+              )}
+            </div>
+          </Card>
+        </Col>
+      );
+    })}
+  </Row>
+</div>
 
       {/* Thanh Phân Trang */}
       {filteredBooks.length > 0 && (

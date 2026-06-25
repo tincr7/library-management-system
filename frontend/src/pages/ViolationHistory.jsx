@@ -66,40 +66,83 @@ const ViolationHistory = () => {
 
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-        <div>
-          <Title level={3} style={{ margin: 0, fontWeight: 'bold' }}>
-            <WarningOutlined style={{ color: '#f5222d', marginRight: 10 }} />
-            Lịch Sử Vi Phạm & Nộp Phạt
-          </Title>
-          <Text type="secondary">Theo dõi các vi phạm của bạn và trạng thái nộp phạt tại thư viện.</Text>
-        </div>
-        <Button icon={<ReloadOutlined />} onClick={fetchMyViolations} loading={loading}>
-          Làm mới
-        </Button>
+    <style>{`
+      /* Custom responsive cho phần header tiêu đề vi phạm */
+      .violation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        gap: 16px;
+      }
+      .violation-refresh-btn {
+        width: auto; /* Mặc định trên PC nút tự co giãn theo chữ */
+      }
+
+      /* Khi vào màn hình điện thoại (< 576px) */
+      @media (max-width: 576px) {
+        .violation-header {
+          flex-direction: column; /* Ép tiêu đề và nút xếp thành hàng dọc */
+          align-items: stretch !important; /* Kéo giãn nút bấm bằng chiều rộng màn hình */
+          gap: 12px;
+        }
+        .violation-refresh-btn {
+          width: 100% !important; /* Ép nút Làm mới nằm dưới và rộng 100% */
+        }
+      }
+
+      @media (max-width: 767px) {
+        .responsive-table .ant-table-cell {
+          font-size: 12px;
+          padding: 10px 8px;
+        }
+      }
+    `}</style>
+
+    {/* Áp dụng class violation-header thay cho inline style cũ */}
+    <div className="violation-header">
+      <div>
+        <Title level={3} style={{ margin: 0, fontWeight: 'bold' }}>
+          <WarningOutlined style={{ color: '#f5222d', marginRight: 10 }} />
+          Lịch Sử Vi Phạm & Nộp Phạt
+        </Title>
+        <Text type="secondary">Theo dõi các vi phạm của bạn và trạng thái nộp phạt tại thư viện.</Text>
       </div>
-
-      {totalUnpaidFine > 0 && (
-        <Alert
-          message="Bạn có khoản phạt chưa thanh toán!"
-          description={<span>Tổng số tiền phạt chưa nộp là <b style={{ color: '#d4380d', fontSize: '16px' }}>{totalUnpaidFine.toLocaleString()}đ</b>. Vui lòng đến quầy thư viện để thanh toán sớm nhất có thể.</span>}
-          type="error"
-          showIcon
-          style={{ marginBottom: 20, borderRadius: '8px' }}
-        />
-      )}
-
-      <Card bordered={false} bodyStyle={{ padding: 0 }}>
-        <Table 
-          dataSource={violations} 
-          columns={columns} 
-          rowKey="id" 
-          loading={loading} 
-          pagination={{ pageSize: 8 }} 
-          bordered 
-        />
-      </Card>
+      
+      {/* Áp dụng class violation-refresh-btn cho nút bấm */}
+      <Button 
+        icon={<ReloadOutlined />} 
+        onClick={fetchMyViolations} 
+        loading={loading}
+        className="violation-refresh-btn"
+      >
+        Làm mới
+      </Button>
     </div>
+
+    {totalUnpaidFine > 0 && (
+      <Alert
+        message="Bạn có khoản phạt chưa thanh toán!"
+        description={<span>Tổng số tiền phạt chưa nộp là <b style={{ color: '#d4380d', fontSize: '16px' }}>{totalUnpaidFine.toLocaleString()}đ</b>. Vui lòng đến quầy thư viện để thanh toán sớm nhất có thể.</span>}
+        type="error"
+        showIcon
+        style={{ marginBottom: 20, borderRadius: '8px' }}
+      />
+    )}
+
+    <Card bordered={false} bodyStyle={{ padding: 0 }}>
+      <Table 
+        dataSource={violations} 
+        columns={columns} 
+        rowKey="id" 
+        loading={loading} 
+        className="responsive-table"
+        scroll={{ x: 'max-content' }}
+        pagination={{ pageSize: 8 }} 
+        bordered 
+      />
+    </Card>
+  </div>
   );
 };
 

@@ -164,16 +164,25 @@ const RenewHistory = ({ defaultTab = '1' }) => {
   return (
     <div style={{ width: '100%' }}>
       <div style={{ marginBottom: 20 }}>
-        <Title level={3} style={{ margin: 0, fontWeight: 'bold' }}><SyncOutlined style={{ color: '#1890ff', marginRight: 10 }} />Quản lý Gia hạn Sách</Title>
+        <Title level={3} style={{ margin: 0, fontWeight: 'bold' }}><SyncOutlined style={{ color: '#1890ff', marginRight: 10 }} />Quản lý gia hạn</Title>
         <Text type="secondary">Theo dõi các sách đang mượn và thực hiện gia hạn thời gian mượn trực tuyến dễ dàng.</Text>
       </div>
+
+      <style>{`
+        @media (max-width: 767px) {
+          .responsive-table .ant-table-cell {
+            font-size: 12px;
+            padding: 10px 8px;
+          }
+        }
+      `}</style>
 
       <Tabs 
         defaultActiveKey={defaultTab} 
         type="card"
         items={[
-          { key: '1', label: <span style={{ fontWeight: 500 }}><SyncOutlined /> Sách đang mượn (Có thể gia hạn)</span>, children: <Table dataSource={myActiveBorrows} columns={borrowColumns} rowKey="id" loading={loading} pagination={{ pageSize: 5 }} bordered /> },
-          { key: '2', label: <span style={{ fontWeight: 500 }}><HistoryOutlined /> Lịch sử gia hạn của tôi</span>, children: <Table dataSource={myHistories} columns={historyColumns} rowKey="id" loading={loading} pagination={{ pageSize: 5 }} bordered /> }
+          { key: '1', label: <span style={{ fontWeight: 500 }}><SyncOutlined /> Sách đang mượn (Có thể gia hạn)</span>, children: <Table dataSource={myActiveBorrows} columns={borrowColumns} rowKey="id" loading={loading} pagination={{ pageSize: 5 }} bordered scroll={{ x: 'max-content' }} className="responsive-table" /> },
+          { key: '2', label: <span style={{ fontWeight: 500 }}><HistoryOutlined /> Lịch sử gia hạn của tôi</span>, children: <Table dataSource={myHistories} columns={historyColumns} rowKey="id" loading={loading} pagination={{ pageSize: 5 }} bordered scroll={{ x: 'max-content' }} className="responsive-table" /> }
         ]}
       />
 

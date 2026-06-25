@@ -89,8 +89,8 @@ const StudentProfile = () => {
 
       <Card bordered={false} style={{ borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
         <Row gutter={[32, 32]}>
-          {/* Cột trái: Ảnh đại diện */}
-          <Col xs={24} md={8} style={{ textAlign: 'center', borderRight: '1px solid #f0f0f0' }}>
+          {/* Cột trái: Ảnh đại diện - Thêm borderBottom trên mobile */}
+          <Col xs={24} md={8} style={{ textAlign: 'center' }} className="profile-sidebar">
             <Avatar 
               size={120} 
               icon={<UserOutlined />} 
@@ -98,6 +98,13 @@ const StudentProfile = () => {
             />
             <Title level={4} style={{ margin: '0 0 4px 0' }}>{userData?.name || 'Tải dữ liệu...'}</Title>
             <Text type="secondary">Sinh viên ĐH Thủy Lợi</Text>
+            <style>{`
+              @media (max-width: 767px) {
+                .profile-sidebar {
+                  border-bottom: 1px solid #f0f0f0; padding-bottom: 24px; margin-bottom: 24px;
+                }
+              }
+            `}</style>
           </Col>
           
           {/* Cột phải: Form cập nhật thông tin */}
@@ -121,7 +128,7 @@ const StudentProfile = () => {
                 </Col>
               </Row>
 
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 {userData?.telegramId ? (
                   <Button 
                     type="primary" 

@@ -137,7 +137,17 @@ const ViolationsManagement = () => {
   };
 
   const filteredData = useMemo(() => {
-    return violations.filter(item => {
+    // Sắp xếp: Ưu tiên "Chưa thu" lên đầu, sau đó là các vi phạm mới nhất
+    const sortedViolations = [...violations].sort((a, b) => {
+      // So sánh trạng thái nộp phạt. `isPaid` false (0) sẽ đứng trước true (1).
+      if (a.isPaid !== b.isPaid) {
+        return a.isPaid - b.isPaid;
+      }
+      // Nếu cùng trạng thái, sắp xếp theo ngày tạo mới nhất lên đầu
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+    return sortedViolations.filter(item => {
       const matchesSearch = 
         item.user?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
         item.user?.mssv?.toLowerCase().includes(searchText.toLowerCase()) ||

@@ -60,7 +60,24 @@ const Login = () => {
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden', fontFamily: 'Segoe UI, sans-serif' }}>
       
-      {/* 🏙️ NỬA BÊN TRÁI: Hình nền Background Thư viện hiện đại cực nghệ */}
+      {/* 📱 THÊM CSS RESPONSIVE CHO MOBILE VÀ TABLET */}
+      <style>{`
+        /* Trên màn hình điện thoại di động (< 768px) */
+        @media (max-width: 767px) {
+          .hidden-mobile {
+            display: none !important; /* Ẩn hoàn toàn nửa ảnh nền bên trái */
+          }
+          .login-right-panel {
+            flex: 1 !important;
+            padding: 0 24px !important; /* Giảm padding cho form rộng rãi trên mobile */
+          }
+          .login-container-box {
+            max-width: 100% !important; /* Cho phép form mở rộng tối đa màn hình điện thoại */
+          }
+        }
+      `}</style>
+      
+      {/* 🏙️ NỬA BÊN TRÁI: Hình nền Background Thư viện (Sẽ tự ẩn khi vào điện thoại) */}
       <div style={{ 
         flex: 1.2, 
         backgroundImage: 'linear-gradient(rgba(0, 21, 41, 0.85), rgba(0, 21, 41, 0.9)), url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1920")', 
@@ -73,9 +90,9 @@ const Login = () => {
         color: '#fff'
       }} className="hidden-mobile">
         <Space direction="vertical" size="middle">
-          <div style={{ background: 'rgba(255,255,255,0.15)', width: 'max-content', padding: '12px', borderRadius: '50%' }}>
-            <BookOutlined style={{ fontSize: '40px', color: '#1890ff' }} />
-          </div>
+          
+            <img src="/ico.png" alt="Library Logo" style={{ width: '180px', height: '160px' }} />
+          
           <Title level={1} style={{ color: '#fff', margin: 0, fontWeight: 700, fontSize: '38px' }}>
             Smart Library System
           </Title>
@@ -85,17 +102,20 @@ const Login = () => {
         </Space>
       </div>
 
-      {/* 🔐 NỬA BÊN PHẢI: Form Đăng Nhập Clean & Minimalist */}
-      <div style={{ 
-        flex: 1, 
-        background: '#ffffff', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        padding: '0 40px'
-      }}>
-        <div style={{ width: '100%', maxWidth: '380px' }}>
+      {/* 🔐 NỬA BÊN PHẢI: Form Đăng Nhập (Bổ sung class login-right-panel) */}
+      <div 
+        className="login-right-panel"
+        style={{ 
+          flex: 1, 
+          background: '#ffffff', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          padding: '0 40px'
+        }}
+      >
+        <div className="login-container-box" style={{ width: '100%', maxWidth: '380px' }}>
           
           {/* Header Block */}
           <div style={{ marginBottom: '35px' }}>
@@ -107,7 +127,7 @@ const Login = () => {
             </Text>
           </div>
 
-          {/* Form Ant Design nâng cấp UX */}
+          {/* Form Ant Design */}
           <Form layout="vertical" onFinish={onFinish} size="large">
             <Form.Item 
               label={<span style={{ fontWeight: 500, color: '#434343' }}>Mã số sinh viên / Tài khoản</span>}

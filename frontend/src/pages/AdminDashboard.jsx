@@ -24,7 +24,7 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTitle, ChartTooltip, Legend, ArcElement);
 const { Title, Text } = Typography;
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ onNavigate }) => {
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({
     totalBooks: 0,
@@ -98,22 +98,22 @@ const AdminDashboard = () => {
         {/* ==================== 1. KHỐI THỐNG KÊ NHANH (CARDS) ==================== */}
         <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
           <Col xs={24} sm={12} lg={6}>
-            <Card borderless style={{ borderLeft: '4px solid #1890ff' }}>
+            <Card hoverable onClick={() => onNavigate('2')} borderless style={{ borderLeft: '4px solid #1890ff', cursor: 'pointer' }}>
               <Statistic title="Tổng số đầu sách" value={stats.totalBooks} prefix={<BookOutlined style={{ color: '#1890ff' }} />} />
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card borderless style={{ borderLeft: '4px solid #52c41a' }}>
+            <Card hoverable onClick={() => onNavigate('3')} borderless style={{ borderLeft: '4px solid #52c41a', cursor: 'pointer' }}>
               <Statistic title="Tổng số sinh viên" value={stats.totalStudents} prefix={<UserOutlined style={{ color: '#52c41a' }} />} />
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card borderless style={{ borderLeft: '4px solid #fa8c16' }}>
+            <Card hoverable onClick={() => onNavigate('4')} borderless style={{ borderLeft: '4px solid #fa8c16', cursor: 'pointer' }}>
               <Statistic title="Sách đang được mượn" value={stats.borrowingBooks} prefix={<ContactsOutlined style={{ color: '#fa8c16' }} />} />
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={6}>
-            <Card borderless style={{ borderLeft: '4px solid #f5222d' }}>
+            <Card hoverable onClick={() => onNavigate('6')} borderless style={{ borderLeft: '4px solid #f5222d', cursor: 'pointer' }}>
               <Statistic title="Sách quá hạn phạt" value={stats.overdueBooks} prefix={<AlertOutlined style={{ color: '#f5222d' }} />} />
             </Card>
           </Col>
