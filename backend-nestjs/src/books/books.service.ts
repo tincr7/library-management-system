@@ -50,7 +50,8 @@ export class BooksService {
         console.log(`📡 [NestJS Sync] Đang gửi request đồng bộ sách ID ${newBook.id} sang FastAPI...`);
 
         // Thực hiện bắn sang cổng 8000 của Python
-        const response = await axios.post('http://localhost:8000/ai/sync-new-book', formData, {
+        //const response = await axios.post('http://localhost:8000/ai/sync-new-book', formData, {
+        const response = await axios.post('http://library_ai:8000/ai/sync-new-book', formData, {  
           headers: { 
             ...formData.getHeaders() // Ép bắt buộc lấy header multipart kèm boundary xịn của form-data
           },
@@ -147,7 +148,8 @@ export class BooksService {
           contentType: file.mimetype,
         });
 
-        await axios.post('http://localhost:8000/ai/sync-new-book', formData, {
+        //await axios.post('http://localhost:8000/ai/sync-new-book', formData, {
+        await axios.post('http://library_ai:8000/ai/sync-new-book', formData, {
           headers: { ...formData.getHeaders() },
           timeout: 15000,
         });
@@ -165,7 +167,8 @@ export class BooksService {
           author: updatedBook.author || 'Chưa rõ tác giả',
         };
 
-        await axios.post('http://localhost:8000/ai/update-book-info', payload, {
+        //await axios.post('http://localhost:8000/ai/update-book-info', payload, {
+        await axios.post('http://library_ai:8000/ai/update-book-info', payload, {  
           headers: { 'Content-Type': 'application/json' }, // Định dạng JSON
           timeout: 10000,
         });
@@ -192,7 +195,8 @@ export class BooksService {
 
     // 🚀 ĐỒNG BỘ XÓA SANG AI: Bắn tín hiệu DELETE sang để Python dọn dẹp folder và Excel
     try {
-      await axios.delete(`http://localhost:8000/ai/delete-book/${id}`, {
+      //await axios.delete(`http://localhost:8000/ai/delete-book/${id}`, {
+      await axios.delete(`http://library_ai:8000/ai/delete-book/${id}`, {  
         timeout: 10000,
       });
       console.log(`🗑️ [AI Sync] Đã bắn lệnh xóa sạch dữ liệu sách ID ${id} sang AI Service thành công!`);
