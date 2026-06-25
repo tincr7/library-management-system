@@ -35,7 +35,7 @@ services:
       DATABASE_URL: "postgresql://dht_admin:123456@postgres:5432/smart_library?schema=public"
     volumes:
       - ./backend-nestjs/knowledge:/app/knowledge
-      - ./backend-nestjs/data:/app/data
+      - ./ai-service/data:/app/data
     depends_on:
       - postgres
 
@@ -47,7 +47,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend-nestjs/knowledge:/app/knowledge   # Chia sẻ thư mục luật từ Backend sang AI
-      - ./backend-nestjs/data:/app/data             # Chia sẻ thư mục data (excel, ảnh bìa) sang AI
+      - ./ai-service/data:/app/data             # Chia sẻ thư mục data (excel, ảnh bìa) sang AI
     depends_on:
       - postgres
 
