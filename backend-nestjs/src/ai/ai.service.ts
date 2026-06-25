@@ -27,7 +27,8 @@ export class AiService {
         contentType: file.mimetype,
       });
 
-      const aiServerUrl = 'http://localhost:8000/ai/predict-cover';
+      //const aiServerUrl = 'http://localhost:8000/ai/predict-cover';
+      const aiServerUrl = 'http://library_ai:8000/ai/predict-cover';
       const aiResponse = await axios.post(aiServerUrl, formData, {
         headers: {
           ...formData.getHeaders(),
