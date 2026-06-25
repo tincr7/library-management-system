@@ -24,27 +24,35 @@ services:
       - postgres
 
   backend:
-    build: ./backend-nestjs             # VPS sẽ tự build dựa vào Dockerfile trong thư mục backend
+    build: ./backend-nestjs              # VPS sẽ tự build dựa vào Dockerfile trong thư mục backend-nestjs
     container_name: library_backend
     restart: always
     ports:
       - "3001:3001"
+    env_file:
+      - ./backend-nestjs/.env
     environment:
       DATABASE_URL: "postgresql://dht_admin:123456@postgres:5432/smart_library?schema=public"
+    volumes:
+      - ./backend-nestjs/knowledge:/app/knowledge
+      - ./backend-nestjs/data:/app/data
     depends_on:
       - postgres
 
-  ai-service:
-    build: ./ai-service          # Tên thư mục chứa code python của Tín (sửa lại cho đúng tên thư mục thật nhé)
+  ai:
+    build: ./ai-service                  # VPS sẽ tự build dựa vào Dockerfile trong thư mục ai-service
     container_name: library_ai
     restart: always
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend-nestjs/knowledge:/app/knowledge   # Chia sẻ thư mục luật từ Backend sang AI
+      - ./backend-nestjs/data:/app/data             # Chia sẻ thư mục data (excel, ảnh bìa) sang AI
     depends_on:
       - postgres
 
   frontend:
-    build: ./frontend            # VPS sẽ tự build dựa vào Dockerfile trong thư mục frontend
+    build: ./frontend                    # VPS sẽ tự build dựa vào Dockerfile trong thư mục frontend
     container_name: library_frontend
     restart: always
     ports:
