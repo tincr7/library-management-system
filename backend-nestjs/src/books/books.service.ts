@@ -212,7 +212,7 @@ export class BooksService {
   //Đồng bộ bìa sách từ thư mục books_covers
   async autoMigrationCoversToCloudinary() {
     // Đường dẫn trỏ thẳng vào thư mục chứa ảnh bìa (Đặt theo ID sách) trên VPS
-    const coversDir = path.join(process.cwd(), '..', 'ai-service', 'data', 'books_covers');
+    const coversDir = path.join(process.cwd(), 'ai-service', 'data', 'books_covers');
     const cloudName = 'dbupojkeb';
     const uploadPreset = 'ml_default';
 
