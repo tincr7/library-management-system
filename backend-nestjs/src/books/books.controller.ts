@@ -106,4 +106,10 @@ export class BooksController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.booksService.remove(id);
   }
+
+  //Đồng bộ bìa sách từ thư mục books_covers
+  @Get('migration/upload-cloudinary')
+async runCloudinaryMigration() {
+  return await this.booksService.autoMigrationCoversToCloudinary();
+}
 }

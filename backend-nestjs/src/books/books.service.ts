@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import * as fs from 'fs';
+import * as path from 'path';
 import axios from 'axios';
 import FormData = require('form-data');
 
@@ -205,5 +207,78 @@ export class BooksService {
     }
 
     return deletedBook;
+  }
+
+  //Đồng bộ bìa sách từ thư mục books_covers
+  async autoMigrationCoversToCloudinary() {
+    // Đường dẫn trỏ thẳng vào thư mục chứa ảnh bìa (Đặt theo ID sách) trên VPS
+    const coversDir = path.join(process.cwd(), '..', 'ai-service', 'data', 'books_covers');
+    const cloudName = 'dbupojkeb';
+    const uploadPreset = 'ml_default';
+
+    try {
+      // 1. Đọc danh sách file ảnh trong thư mục
+      const files = fs.readdirSync(coversDir);
+      console.log(`Bắt đầu xử lý quét ${files.length} file ảnh...`);
+      
+      let successCount = 0;
+
+      for (const fileName of files) {
+        // Tách lấy ID từ tên file (Ví dụ: "225.webp" -> 225)
+        const bookIdStr = path.parse(fileName).name;
+        const bookId = parseInt(bookIdStr, 10);
+
+        if (isNaN(bookId)) continue;
+
+        // 2. Kiểm tra xem cuốn sách có ID này có thực sự nằm trong DB không
+        const bookExists = await this.prisma.book.findUnique({ where: { id: bookId } });
+        if (!bookExists) {
+          console.log(`⚠️ Bỏ qua file ${fileName} vì ID ${bookId} không tồn tại trong DB`);
+          continue;
+        }
+
+        const filePath = path.join(coversDir, fileName);
+        
+        // 3. Chuyển ảnh thành Data URI (Base64) để bắn API thuần cho Cloudinary nuốt
+        const fileBase64 = fs.readFileSync(filePath, { encoding: 'base64' });
+        const extension = path.extname(fileName).replace('.', '').toLowerCase();
+        // Xử lý chuẩn MIME-type cho file ảnh (.webp, .jpg, .png...)
+        const mimeType = extension === 'jpg' || extension === 'jpeg' ? 'jpeg' : extension;
+        const fileDataUri = `data:image/${mimeType};base64,${fileBase64}`;
+
+        console.log(`🚀 Đang đẩy ảnh của Sách ID ${bookId} lên Cloudinary...`);
+
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        file: fileDataUri,
+        upload_preset: uploadPreset,
+        // 💡 Mẹo nhỏ: Bỏ public_id cấu hình cứng đi, để Cloudinary tự sinh mã băm ngẫu nhiên 
+        // giống hệt như lúc Tín dùng giao diện Up Unsigned để đồng bộ tuyệt đối cấu trúc URL!
+      });
+
+      // Kiểm tra xem URL trả về có phải là HTTPS chưa, nếu là http thì ép sang https
+      let finalSecureUrl = response.data.secure_url;
+      if (finalSecureUrl.startsWith('http://')) {
+        finalSecureUrl = finalSecureUrl.replace('http://', 'https://');
+      }
+
+      // Cập nhật chuỗi URL sạch sẽ này vào đúng Database
+      await this.prisma.book.update({
+        where: { id: bookId },
+        data: { coverImage: finalSecureUrl },
+      });
+
+      console.log(` Đã đồng bộ thành công Sách ID ${bookId} -> ${finalSecureUrl}`);
+        successCount++;
+      }
+
+      return { 
+        status: 'Success', 
+        message: `Đã hoàn thành upload và cập nhật link Cloudinary cho ${successCount} cuốn sách!` 
+      };
+
+    } catch (error) {
+      console.error('Lỗi trong quá trình chạy Migration:', error?.response?.data || error.message);
+      throw error;
+    }
   }
 }
