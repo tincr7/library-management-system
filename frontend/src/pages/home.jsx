@@ -120,6 +120,18 @@ const Home = () => {
     window.location.href = '/login';
   };
 
+  const parseMarkdown = (text) => {
+    if (!text) return '';
+    
+    // Tách chuỗi dựa trên ký tự **
+    const parts = text.split('**');
+    
+    return parts.map((part, index) => {
+      // Các phần tử ở vị trí lẻ (1, 3, 5...) sẽ được bọc thẻ in đậm <strong>
+      return index % 2 === 1 ? <strong key={index} style={{ fontWeight: 700, color: '#111111' }}>{part}</strong> : part;
+    });
+  };
+
   const renderMessageContent = (fullText) => {
     const bookDataRegex = /<BOOK_DATA>([\s\S]*?)<\/BOOK_DATA>/;
     const match = fullText.match(bookDataRegex);
@@ -137,7 +149,9 @@ const Home = () => {
 
     return (
       <Space direction="vertical" style={{ width: '100%' }} size="small">
-        <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', fontSize: '13px' }}>{cleanText}</div>
+        <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6' }}>
+          {parseMarkdown(cleanText)}
+        </div>
         {books.length > 0 && (
           <div style={{ marginTop: '12px' }}>
             <Row gutter={[12, 12]}>

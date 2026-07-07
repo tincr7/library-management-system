@@ -89,8 +89,8 @@ export class TelegramService implements OnModuleInit, OnApplicationBootstrap, On
 
   // 🔥 THÊM MỚI: Hàm xử lý quét tự động thông báo dựa trên khoảng cách ngày (Không sửa DB)
   // Hàm này sẽ được gọi từ file Cron Service của bạn định kỳ
-  //@Cron('*/2 * * * *')
-  @Cron('0 8 * * *') // Đúng 08:00:00 sáng mỗi ngày hệ thống mới quét và nhắn tin
+  @Cron('*/2 * * * *')
+  //@Cron('0 8 * * *') // Đúng 08:00:00 sáng mỗi ngày hệ thống mới quét và nhắn tin
  async checkAndSendDeadlineNotifications() {
     console.log('⏰ [Cron Job] Đang quét thời hạn mượn sách, xử lý vi phạm và đồng bộ Telegram...');
     
